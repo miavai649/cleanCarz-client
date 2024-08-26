@@ -69,37 +69,38 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`sticky top-0 z-50 border-b transition-shadow duration-300 ${
-        isScrolled ? 'bg-primary-500 shadow-lg' : 'bg-white'
+      className={`sticky top-0 z-50 transition-shadow duration-300 ${
+        isScrolled ? 'bg-black/20 shadow-md' : 'bg-black'
       }`}>
       <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
         <div className='flex items-center justify-between h-16'>
-          <div className='flex-shrink-0 flex items-center'>
+          {/* Logo aligned to the left */}
+          <div className='flex-shrink-0'>
             <a href='/'>
               <img
                 src={logo}
                 alt='CleanCarz logo'
-                className='w-[60px] h-[40px]'
+                className='w-[80px] h-[40px]'
               />
             </a>
           </div>
 
-          <div className='hidden lg:flex items-center gap-5'>
-            {Links.map((item, idx) => (
-              <Link
-                key={idx}
-                to={item.path}
-                className={`relative inline-block px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-200 ease-out ${
-                  location.pathname === item.path
-                    ? 'bg-secondary-500 text-white shadow-sm'
-                    : 'text-zinc-900 hover:text-primary-500 hover:bg-gray-100 hover:shadow'
-                }`}>
-                {item.name}
-              </Link>
-            ))}
-          </div>
+          <div className='flex-1 flex items-center justify-end space-x-6'>
+            <div className='hidden lg:flex items-center space-x-5'>
+              {Links.map((item, idx) => (
+                <Link
+                  key={idx}
+                  to={item.path}
+                  className={`relative text-white inline-block px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-200 ease-out ${
+                    location.pathname === item.path
+                      ? 'bg-secondary-500 text-white shadow-sm'
+                      : 'text-white hover:text-primary-500 hover:bg-gray-100 hover:shadow'
+                  }`}>
+                  {item.name}
+                </Link>
+              ))}
+            </div>
 
-          <div className='flex items-center gap-4'>
             <Dropdown trigger={['click']} menu={{ items }} placement='bottom'>
               <Button
                 style={{
