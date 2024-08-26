@@ -188,12 +188,12 @@ const Navbar = () => {
               />
             </svg>
           </button>
-          <div className='space-y-3'>
+          <div className='space-y-2'>
             {Links.map((item, idx) => (
               <Link
                 key={idx}
                 to={item.path}
-                className={`block text-white px-4 py-3 rounded-lg text-lg font-semibold ${
+                className={`block text-white px-3 py-2 rounded-md text-base font-medium ${
                   location.pathname === item.path
                     ? 'bg-secondary-500 shadow-md'
                     : 'bg-primary-500 hover:bg-primary-600'
