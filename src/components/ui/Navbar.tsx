@@ -6,8 +6,7 @@ import { logo } from '../../assets/logo'
 const Links = [
   { path: '/', name: 'Home' },
   { path: '/services', name: 'Services' },
-  { path: '/booking', name: 'Booking' },
-  { path: '/contact', name: 'Contact Us' }
+  { path: '/booking', name: 'Booking' }
 ]
 
 const items: MenuProps['items'] = [
@@ -71,30 +70,29 @@ const Navbar = () => {
   return (
     <nav
       className={`sticky top-0 z-50 border-b transition-shadow duration-300 ${
-        isScrolled ? 'bg-white shadow-md' : 'bg-white'
+        isScrolled ? 'bg-primary-500 shadow-lg' : 'bg-white'
       }`}>
       <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
         <div className='flex items-center justify-between h-16'>
           <div className='flex-shrink-0 flex items-center'>
             <a href='/'>
-              {' '}
               <img
                 src={logo}
-                alt='cleanCarz logo'
+                alt='CleanCarz logo'
                 className='w-[60px] h-[40px]'
               />
             </a>
           </div>
 
-          <div className='hidden lg:flex items-center gap-7'>
+          <div className='hidden lg:flex items-center gap-5'>
             {Links.map((item, idx) => (
               <Link
                 key={idx}
                 to={item.path}
-                className={`rounded-md text-base font-medium ${
+                className={`relative inline-block px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-200 ease-out ${
                   location.pathname === item.path
-                    ? 'bg-blue-100 text-blue-600 px-2 py-1'
-                    : 'text-zinc-900'
+                    ? 'bg-secondary-500 text-white shadow-sm'
+                    : 'text-zinc-900 hover:text-primary-500 hover:bg-gray-100 hover:shadow'
                 }`}>
                 {item.name}
               </Link>
@@ -104,7 +102,12 @@ const Navbar = () => {
           <div className='flex items-center gap-4'>
             <Dropdown trigger={['click']} menu={{ items }} placement='bottom'>
               <Button
-                style={{ border: 'none', padding: 2, borderRadius: '100%' }}
+                style={{
+                  border: 'none',
+                  padding: 2,
+                  borderRadius: '100%',
+                  backgroundColor: '#56A7DC'
+                }}
                 type='text'>
                 <Avatar
                   size={45}
@@ -117,13 +120,23 @@ const Navbar = () => {
 
             <div className='lg:block md:block hidden'>
               <div className='flex items-center font-medium'>
-                <Link to='/auth'>Login</Link> /<Link to='/auth'>Register</Link>
+                <Link
+                  to='/auth'
+                  className='text-primary-600 hover:text-secondary-500'>
+                  Login
+                </Link>
+                /
+                <Link
+                  to='/auth'
+                  className='text-primary-600 hover:text-secondary-500'>
+                  Register
+                </Link>
               </div>
             </div>
 
             <button
               type='button'
-              className='inline-flex items-center justify-center p-2 rounded-md text-blue-600 lg:hidden focus:outline-none'
+              className='inline-flex items-center justify-center p-2 rounded-md text-primary-500 lg:hidden focus:outline-none'
               onClick={toggleSidebar}>
               <span className='sr-only'>Open main menu</span>
               <svg
@@ -145,19 +158,20 @@ const Navbar = () => {
         </div>
       </div>
 
+      {/* Sidebar */}
       <div
         className={`fixed inset-0 z-40 bg-gray-800 bg-opacity-75 transition-opacity duration-300 ${
           isSidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
         onClick={closeSidebar}>
         <div
-          className={`fixed inset-y-0 left-0 w-64 bg-white p-4 transform transition-transform duration-300 ${
+          className={`fixed inset-y-0 left-0 w-64 bg-primary-500 p-4 transform transition-transform duration-300 ${
             isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
           onClick={(e) => e.stopPropagation()}>
           <button
             type='button'
-            className='text-blue-600 mb-4 focus:outline-none'
+            className='text-white mb-4 focus:outline-none'
             onClick={closeSidebar}>
             <svg
               className='h-6 w-6'
@@ -179,8 +193,10 @@ const Navbar = () => {
               <Link
                 key={idx}
                 to={item.path}
-                className={`block border text-blue-600 px-3 py-2 rounded-md text-base font-medium ${
-                  location.pathname === item.path ? 'bg-blue-100' : 'bg-white'
+                className={`block text-white px-4 py-3 rounded-lg text-lg font-semibold ${
+                  location.pathname === item.path
+                    ? 'bg-secondary-500 shadow-md'
+                    : 'bg-primary-500 hover:bg-primary-600'
                 }`}
                 onClick={closeSidebar}>
                 {item.name}
