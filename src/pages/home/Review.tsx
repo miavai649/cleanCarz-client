@@ -40,7 +40,7 @@ const Review = () => {
     <div className='relative container mx-auto py-12'>
       {/* Black Overlay */}
       {!isLogin && (
-        <div className='absolute inset-0 z-50 bg-black rounded-md bg-opacity-70 flex items-center justify-center'>
+        <div className='absolute inset-0 z-10 bg-black rounded-md bg-opacity-70 flex items-center justify-center'>
           <div className='bg-white p-8 rounded-lg shadow-lg text-center animate-fade-in'>
             <IoMdCheckmarkCircleOutline
               size={48}
