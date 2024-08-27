@@ -1,9 +1,14 @@
 import { FaFacebook, FaGithub, FaInstagram, FaLinkedin } from 'react-icons/fa6'
+import { logo } from '../../assets/logo'
 
 const Footer = () => {
   return (
-    <div className='text-white bg-black '>
-      <div className='flex justify-center space-x-6 mb-4 py-12'>
+    <div className='text-white bg-black mt-12'>
+      <div className='flex justify-center items-center pt-12  mb-4'>
+        <img src={logo} alt='cleanCarz logo' className='w-36 h-20' />
+      </div>
+
+      <div className='flex justify-center space-x-6 mb-4 '>
         <a
           href='https://facebook.com'
           target='_blank'
@@ -33,7 +38,7 @@ const Footer = () => {
           <FaGithub />
         </a>
       </div>
-      <div className='mt-8 text-center text-gray-500'>
+      <div className=' text-center text-gray-500'>
         <ul className='flex justify-center space-x-6 mb-4'>
           <li>
             <a href='/privacy-policy' className='hover:text-gray-400'>
