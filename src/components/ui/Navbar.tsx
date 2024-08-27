@@ -2,11 +2,20 @@ import { Avatar, Button, Dropdown, MenuProps } from 'antd'
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { logo } from '../../assets/logo'
+import { CiLogin } from 'react-icons/ci'
 
-const Links = [
+const largeScreenLinks = [
   { path: '/', name: 'Home' },
   { path: '/services', name: 'Services' },
   { path: '/booking', name: 'Booking' }
+]
+
+const mobileNavbarLinks = [
+  { path: '/', name: 'Home' },
+  { path: '/services', name: 'Services' },
+  { path: '/booking', name: 'Booking' },
+  { path: '/register', name: 'Register' },
+  { path: '/login', name: 'Login' }
 ]
 
 const items: MenuProps['items'] = [
@@ -88,7 +97,7 @@ const Navbar = () => {
 
         {/* Navigation links */}
         <div className='hidden lg:flex space-x-8'>
-          {Links.map((item, idx) => (
+          {largeScreenLinks.map((item, idx) => (
             <Link
               key={idx}
               to={item.path}
@@ -127,15 +136,34 @@ const Navbar = () => {
           </Dropdown>
 
           <div className='hidden lg:flex space-x-4'>
+            <Link
+              to={'/register'}
+              className={`relative text-lg font-medium text-primary-600 hover:text-secondary-500 transition-all duration-300 ease-in-out ${
+                location.pathname === '/register'
+                  ? 'font-semibold border-b-2 border-secondary-500'
+                  : ''
+              }`}>
+              Register
+              {/* Add underline for active link */}
+              {location.pathname === '/register' && (
+                <span className='absolute inset-x-0 bottom-0 border-b-2 border-secondary-500'></span>
+              )}
+            </Link>
             <Button
               type='primary'
-              className='bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-md px-4 py-2'>
-              <Link to='/auth'>Login</Link>
-            </Button>
-            <Button
-              type='primary'
-              className='bg-secondary-500 hover:bg-secondary-600 text-white font-medium rounded-md px-4 py-2'>
-              <Link to='/auth'>Register</Link>
+              icon={
+                <CiLogin
+                  style={{
+                    fontWeight: 800,
+                    fontSize: '18px',
+                    color: '#ffffff'
+                  }}
+                />
+              }
+              className='bg-secondary-500 hover:bg-secondary-600 text-white font-medium rounded-md px-4 py-2 flex items-center'>
+              <Link to='/login' className='text-white'>
+                Login
+              </Link>
             </Button>
           </div>
 
@@ -194,7 +222,7 @@ const Navbar = () => {
             </svg>
           </button>
           <div className='space-y-2'>
-            {Links.map((item, idx) => (
+            {mobileNavbarLinks.map((item, idx) => (
               <Link
                 key={idx}
                 to={item.path}
