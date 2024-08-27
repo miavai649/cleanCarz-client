@@ -3,20 +3,7 @@ import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { logo } from '../../assets/logo'
 import { CiLogin } from 'react-icons/ci'
-
-const largeScreenLinks = [
-  { path: '/', name: 'Home' },
-  { path: '/services', name: 'Services' },
-  { path: '/booking', name: 'Booking' }
-]
-
-const mobileNavbarLinks = [
-  { path: '/', name: 'Home' },
-  { path: '/services', name: 'Services' },
-  { path: '/booking', name: 'Booking' },
-  { path: '/register', name: 'Register' },
-  { path: '/login', name: 'Login' }
-]
+import { largeScreenLinks, mobileNavbarLinks } from '../../constants/Navbar'
 
 const items: MenuProps['items'] = [
   {
