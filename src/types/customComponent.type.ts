@@ -10,3 +10,10 @@ export type CFormProps = {
   onSubmit: SubmitHandler<FieldValues>
   children: ReactNode
 } & CFormConfig
+
+export type CInputProps = {
+  type: string
+  name: string
+  label?: string
+  placeholder?: string
+}

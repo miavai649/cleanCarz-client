@@ -1,1 +1,1 @@
-export * from './form.type'
+export * from './customComponent.type'
