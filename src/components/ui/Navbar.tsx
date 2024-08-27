@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { logo } from '../../assets/logo'
 import { CiLogin } from 'react-icons/ci'
-import { largeScreenLinks, mobileNavbarLinks } from '../../constants/Navbar'
+import { largeScreenLinks, mobileNavbarLinks } from '../../constants/navbar'
 
 const items: MenuProps['items'] = [
   {
@@ -148,7 +148,11 @@ const Navbar = () => {
                     }}
                   />
                 }
-                className='bg-secondary-500 hover:bg-secondary-600 text-white font-medium rounded-md px-4 py-2 flex items-center'>
+                className={` ${
+                  location.pathname === '/login'
+                    ? 'bg-primary-600'
+                    : 'bg-secondary-500'
+                } text-white font-medium rounded-md px-4 py-2 flex items-center`}>
                 Login
               </Button>
             </Link>

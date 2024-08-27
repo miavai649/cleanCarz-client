@@ -1,10 +1,11 @@
 import { Form, Input } from 'antd'
 import { Controller } from 'react-hook-form'
 import { CInputProps } from '../../types'
+import { MdErrorOutline } from 'react-icons/md'
 
 const CInput = ({ type, name, label, placeholder }: CInputProps) => {
   return (
-    <div style={{ marginBottom: '20px' }}>
+    <div>
       <Controller
         name={name}
         render={({ field, fieldState: { error } }) => (
@@ -15,9 +16,13 @@ const CInput = ({ type, name, label, placeholder }: CInputProps) => {
               placeholder={placeholder}
               id={name}
               size='large'
-              style={{ width: '100%', marginBottom: '4px' }}
             />
-            {error && <small style={{ color: 'red' }}>{error.message}</small>}
+            {error && (
+              <small className='text-red-500 mt-1 flex items-center animate-slide-in'>
+                <MdErrorOutline size={15} className='mr-1 ' />
+                {error.message}
+              </small>
+            )}
           </Form.Item>
         )}
       />
