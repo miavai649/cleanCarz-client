@@ -3,7 +3,7 @@ import CForm from '../../components/form/CForm'
 import CInput from '../../components/form/CInput'
 import CPasswordInput from '../../components/form/CPasswordInput'
 
-const Login = () => {
+const Register = () => {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     console.log(data)
   }
@@ -39,7 +39,7 @@ const Login = () => {
             </button>
           </CForm>
 
-          {/* <div className='text-center text-sm text-grey-dark mt-4'>
+          <div className='text-center text-sm text-grey-dark mt-4'>
             By signing up, you agree to the
             <a
               className='no-underline border-b border-grey-dark text-grey-dark'
@@ -52,7 +52,7 @@ const Login = () => {
               href='#'>
               Privacy Policy
             </a>
-          </div> */}
+          </div>
         </div>
 
         <div className='text-grey-dark mt-6'>
@@ -69,4 +69,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Register

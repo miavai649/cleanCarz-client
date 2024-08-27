@@ -136,22 +136,22 @@ const Navbar = () => {
                 <span className='absolute inset-x-0 bottom-0 border-b-2 border-secondary-500'></span>
               )}
             </Link>
-            <Button
-              type='primary'
-              icon={
-                <CiLogin
-                  style={{
-                    fontWeight: 800,
-                    fontSize: '18px',
-                    color: '#ffffff'
-                  }}
-                />
-              }
-              className='bg-secondary-500 hover:bg-secondary-600 text-white font-medium rounded-md px-4 py-2 flex items-center'>
-              <Link to='/login' className='text-white'>
+            <Link to='/login' className='text-white'>
+              <Button
+                type='primary'
+                icon={
+                  <CiLogin
+                    style={{
+                      fontWeight: 800,
+                      fontSize: '18px',
+                      color: '#ffffff'
+                    }}
+                  />
+                }
+                className='bg-secondary-500 hover:bg-secondary-600 text-white font-medium rounded-md px-4 py-2 flex items-center'>
                 Login
-              </Link>
-            </Button>
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}

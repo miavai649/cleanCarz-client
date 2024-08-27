@@ -7,12 +7,7 @@ import {
 } from 'react-hook-form'
 import { CFormConfig, CFormProps } from '../../types'
 
-const CInput = ({
-  onSubmit,
-  children,
-  defaultValues,
-  resolver
-}: CFormProps) => {
+const CForm = ({ onSubmit, children, defaultValues, resolver }: CFormProps) => {
   const formConfig: CFormConfig = {}
 
   if (defaultValues) {
@@ -39,4 +34,4 @@ const CInput = ({
   )
 }
 
-export default CInput
+export default CForm
