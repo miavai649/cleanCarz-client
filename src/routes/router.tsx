@@ -6,11 +6,14 @@ import Login from '../pages/login/Login'
 import Booking from '../pages/booking/Booking'
 import Register from '../pages/register/Register'
 import ServiceDetails from '../pages/serviceDetails/ServiceDetails'
+import BookingPage from '../pages/BookingPage/BookingPage'
+import NotFound from '../pages/notFound/NotFound'
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    // errorElement: <NotFound />,
     children: [
       {
         path: '/',
@@ -23,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: '/service-details',
         element: <ServiceDetails />
+      },
+      {
+        path: '/booking-page',
+        element: <BookingPage />
       },
 
       {

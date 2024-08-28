@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { DatePicker, Button, DatePickerProps } from 'antd'
+import { Link } from 'react-router-dom'
 
 const ServiceDetails = () => {
   const [selectedSlot, setSelectedSlot] = useState(null)
@@ -30,14 +31,15 @@ const ServiceDetails = () => {
       {/* Header */}
       <div className='text-center mb-12'>
         <h2 className='text-4xl font-extrabold text-gray-800 mb-4'>
-          Join CleanCarz Today
+          Service Details
         </h2>
         <p className='text-gray-600 text-lg'>
-          Create an account to start booking car wash services with ease and
-          manage your appointments anytime.
+          Find everything you need to know about this service. Secure your spot
+          and enjoy a pristine clean at your convenience.
         </p>
         <div className='mt-2 w-24 mx-auto h-1 bg-primary-800 rounded'></div>
       </div>
+
       <div className='max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg'>
         {/* Service Image */}
         <div className='relative mb-6 rounded-lg overflow-hidden'>
@@ -100,11 +102,13 @@ const ServiceDetails = () => {
         {/* Book Button */}
         {selectedSlot && (
           <div className='mt-8 flex justify-center'>
-            <Button
-              type='primary'
-              className='bg-primary-500 hover:bg-primary-600 text-white px-6 py-2 rounded-lg shadow-md'>
-              Book This Service
-            </Button>
+            <Link to={'/booking-page'}>
+              <Button
+                type='primary'
+                className='bg-primary-500 hover:bg-primary-600 text-white px-6 py-2 rounded-lg shadow-md'>
+                Book This Service
+              </Button>
+            </Link>
           </div>
         )}
       </div>
