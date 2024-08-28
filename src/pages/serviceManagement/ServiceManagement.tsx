@@ -1,14 +1,7 @@
-import {
-  Button,
-  Form,
-  Input,
-  Modal,
-  Space,
-  Table,
-  TableColumnsType
-} from 'antd'
+import { Button, Space, Table, TableColumnsType } from 'antd'
 import { Link } from 'react-router-dom'
 import AddServiceModal from '../../components/modal/AddServiceModal'
+import UpdateServiceModal from '../../components/modal/UpdateServiceModal'
 
 interface TServiceData {
   _id: string
@@ -81,7 +74,7 @@ const ServiceManagement = () => {
           <Link to={`/admin/service-details/${item._id}`}>
             <Button>Details</Button>
           </Link>
-          <Button>Update</Button>
+          <UpdateServiceModal />
           <Button danger>Delete</Button>
         </Space>
       ),
