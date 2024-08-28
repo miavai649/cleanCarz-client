@@ -8,12 +8,13 @@ import Register from '../pages/register/Register'
 import ServiceDetails from '../pages/serviceDetails/ServiceDetails'
 import BookingPage from '../pages/BookingPage/BookingPage'
 import NotFound from '../pages/notFound/NotFound'
+import Dashboard from '../components/ui/Dashboard'
+import DashboardLayout from '../components/layouts/DashboardLayout'
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-    errorElement: <NotFound />,
     children: [
       {
         path: '/',
@@ -45,6 +46,14 @@ const router = createBrowserRouter([
         element: <Register />
       }
     ]
+  },
+  {
+    path: '/admin/dashboard',
+    element: <DashboardLayout />
+  },
+  {
+    path: '*',
+    element: <NotFound />
   }
 ])
 

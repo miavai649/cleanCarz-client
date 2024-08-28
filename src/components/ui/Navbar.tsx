@@ -4,40 +4,20 @@ import { Link, useLocation } from 'react-router-dom'
 import { logo } from '../../assets/logo'
 import { CiLogin } from 'react-icons/ci'
 import { largeScreenLinks, mobileNavbarLinks } from '../../constants/navbar'
+import { FaCircleUser } from 'react-icons/fa6'
 
 const items: MenuProps['items'] = [
   {
-    key: '1',
-    label: (
-      <a
-        target='_blank'
-        rel='noopener noreferrer'
-        href='https://www.antgroup.com'>
-        1st menu item
-      </a>
-    )
-  },
-  {
     key: '2',
     label: (
-      <a
-        target='_blank'
-        rel='noopener noreferrer'
-        href='https://www.aliyun.com'>
-        2nd menu item
-      </a>
+      <Link to={'/admin/dashboard'}>
+        <button>Dashboard</button>
+      </Link>
     )
   },
   {
-    key: '3',
-    label: (
-      <a
-        target='_blank'
-        rel='noopener noreferrer'
-        href='https://www.luohanacademy.com'>
-        3rd menu item
-      </a>
-    )
+    key: '1',
+    label: <button>Log out</button>
   }
 ]
 
@@ -90,11 +70,10 @@ const Navbar = () => {
               to={item.path}
               className={`relative text-lg font-medium text-primary-600 hover:text-secondary-500 transition-all duration-300 ease-in-out ${
                 location.pathname === item.path
-                  ? 'font-semibold border-b-2 border-secondary-500'
+                  ? ' border-b-2 border-secondary-500'
                   : ''
               }`}>
               {item.name}
-              {/* Add underline for active link */}
               {location.pathname === item.path && (
                 <span className='absolute inset-x-0 bottom-0 border-b-2 border-secondary-500'></span>
               )}
@@ -108,17 +87,17 @@ const Navbar = () => {
             <Button
               style={{
                 border: 'none',
-                padding: 2,
-                borderRadius: '100%',
-                backgroundColor: '#56A7DC'
+                padding: '6px',
+                borderRadius: '50%',
+                backgroundColor: '#56A7DC',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+                transition: 'background-color 0.3s ease'
               }}
               type='text'>
-              <Avatar
-                size={45}
-                src={
-                  'https://i.ibb.co/yPLQsjm/Screenshot-2024-08-13-001037.png'
-                }
-              />
+              <FaCircleUser className='text-white text-xl' />
             </Button>
           </Dropdown>
 
