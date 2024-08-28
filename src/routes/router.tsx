@@ -5,6 +5,7 @@ import Services from '../pages/services/Services'
 import Login from '../pages/login/Login'
 import Booking from '../pages/booking/Booking'
 import Register from '../pages/register/Register'
+import ServiceDetails from '../pages/serviceDetails/ServiceDetails'
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: '/services',
         element: <Services />
+      },
+      {
+        path: '/service-details',
+        element: <ServiceDetails />
       },
 
       {

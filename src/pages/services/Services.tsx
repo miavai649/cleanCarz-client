@@ -3,6 +3,7 @@ import { Button, Input, Radio, RadioChangeEvent, Select, Space } from 'antd'
 import { useState } from 'react'
 import { FiFilter } from 'react-icons/fi'
 import FilterCard from '../../components/cards/FilterCard'
+import { Link } from 'react-router-dom'
 
 const Services = () => {
   const [capacity, setCapacity] = useState(10)
@@ -197,9 +198,11 @@ const Services = () => {
 
                 <div className='mt-4 flex items-center justify-between'>
                   <p className='text-lg font-bold text-secondary-600'>$25.00</p>
-                  <button className='text-sm font-medium text-primary-500 hover:text-primary-700 transition-colors'>
-                    See Details
-                  </button>
+                  <Link to={'/service-details'}>
+                    <button className='text-sm font-medium text-primary-500 hover:text-primary-700 transition-colors'>
+                      See Details
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>
