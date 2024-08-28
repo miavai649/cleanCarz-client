@@ -1,21 +1,23 @@
 import { Layout, Menu } from 'antd'
-import { Outlet } from 'react-router-dom'
+import { NavLink, Outlet } from 'react-router-dom'
 
 const { Sider, Content } = Layout
 
 const Dashboard = () => {
   const sidebarItems = [
     {
-      key: 'home',
-      label: 'Home'
+      key: 'Service Management',
+      label: (
+        <NavLink to={'/admin/service-management'}>Service Management</NavLink>
+      )
     },
     {
-      key: 'services',
-      label: 'Services'
+      key: 'Slot Management',
+      label: <NavLink to={'/admin/slot-management'}>Slot Management</NavLink>
     },
     {
-      key: 'profile3',
-      label: 'Profile3'
+      key: 'User Management',
+      label: <NavLink to={'/admin/user-management'}>User Management</NavLink>
     }
   ]
 
