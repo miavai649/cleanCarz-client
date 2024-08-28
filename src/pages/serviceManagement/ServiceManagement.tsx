@@ -1,5 +1,14 @@
-import { Button, Space, Table, TableColumnsType } from 'antd'
+import {
+  Button,
+  Form,
+  Input,
+  Modal,
+  Space,
+  Table,
+  TableColumnsType
+} from 'antd'
 import { Link } from 'react-router-dom'
+import AddServiceModal from '../../components/modal/AddServiceModal'
 
 interface TServiceData {
   _id: string
@@ -82,7 +91,10 @@ const ServiceManagement = () => {
 
   return (
     <div>
-      <h1 className='text-2xl mb-6 font-bold'>Service Management</h1>
+      <div className='flex justify-between w-full'>
+        <h1 className='text-2xl mb-6 font-bold'>Service Management</h1>
+        <AddServiceModal />
+      </div>
       <Table
         scroll={{ x: 1300 }}
         style={{ scrollBehavior: 'auto' }}
