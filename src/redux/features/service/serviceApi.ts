@@ -7,14 +7,14 @@ const serviceApi = baseApi.injectEndpoints({
         url: '/services',
         method: 'GET'
       })
+    }),
+    addService: builder.mutation({
+      query: (data) => ({
+        url: '/services',
+        method: 'POST',
+        body: data
+      })
     })
-    // login: builder.mutation({
-    //   query: (data) => ({
-    //     url: '/auth/login',
-    //     method: 'POST',
-    //     body: data
-    //   })
-    // })
   })
 })
 

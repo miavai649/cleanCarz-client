@@ -4,6 +4,8 @@ import { FaPlus } from 'react-icons/fa6'
 import { useState } from 'react'
 import { Controller, FieldValues, SubmitHandler } from 'react-hook-form'
 import { Button, Form, Input, Modal } from 'antd'
+import { zodResolver } from '@hookform/resolvers/zod'
+import addServiceSchema from '../../schemas/service.schema'
 
 const AddServiceModal = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -71,7 +73,7 @@ const AddServiceModal = () => {
         Add Service
       </Button>
       <Modal open={isModalOpen} onCancel={handleCancel} footer={null}>
-        <CForm onSubmit={onSubmit}>
+        <CForm onSubmit={onSubmit} resolver={zodResolver(addServiceSchema)}>
           <CInput name='name' type='text' label='Name' />
           <CInput name='description' type='text' label='Description' />
           <CInput name='price' type='text' label='Price' />
