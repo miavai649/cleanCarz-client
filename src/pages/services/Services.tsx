@@ -4,11 +4,16 @@ import { useState } from 'react'
 import { FiFilter } from 'react-icons/fi'
 import FilterCard from '../../components/cards/FilterCard'
 import { Link } from 'react-router-dom'
+import { useGetAllServiceQuery } from '../../redux/features/service/serviceApi'
 
 const Services = () => {
   const [capacity, setCapacity] = useState(10)
   const [sortOrder, setSortOrder] = useState('')
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+
+  // getting services data
+  const { data: serviceData } = useGetAllServiceQuery(undefined)
+  console.log(serviceData)
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen)

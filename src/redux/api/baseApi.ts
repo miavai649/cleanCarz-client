@@ -1,11 +1,78 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import {
+  BaseQueryApi,
+  BaseQueryFn,
+  createApi,
+  DefinitionType,
+  FetchArgs,
+  fetchBaseQuery,
+  FetchBaseQueryError
+} from '@reduxjs/toolkit/query/react'
+import { RootState } from '../store'
+import { toast } from 'sonner'
+import { setUser } from '../features/auth/authSlice'
+
+// main base query
+const baseQuery = fetchBaseQuery({
+  baseUrl: 'http://localhost:5000/api',
+  credentials: 'include',
+  prepareHeaders: (headers, { getState }) => {
+    // preparing headers for request
+    const token = (getState() as RootState).auth.token
+
+    if (token) {
+      headers.set('authorization', `Bearer ${token}`)
+    }
+    return headers
+  }
+})
+
+// custom base query to catch access token authorization error so that we can send refresh token to get a new access token
+const baseQueryWithRefreshToken: BaseQueryFn<
+  FetchArgs,
+  BaseQueryApi,
+  DefinitionType
+> = async (args, api, extraOptions): Promise<any> => {
+  let result: { error?: FetchBaseQueryError } = await baseQuery(
+    args,
+    api,
+    extraOptions
+  )
+
+  // checking if the user exists or not
+  if (result?.error?.status === 404) {
+    const errorMessage = (result.error.data as { message: string }).message
+    toast.error(errorMessage)
+  }
+
+  if (result?.error?.status === 403) {
+    const errorMessage = (result.error.data as { message: string }).message
+    toast.error(errorMessage)
+  }
+
+  // checking if the user is authenticated or not
+  if (result?.error?.status === 401) {
+    // sending refresh token
+    const res = await fetch('http://localhost:5000/api/auth/refresh-token', {
+      method: 'POST',
+      credentials: 'include'
+    })
+
+    const data = await res.json()
+    if (data?.data?.accessToken) {
+      const user = (api.getState() as RootState).auth.user
+
+      api.dispatch(setUser({ user, token: data?.data?.accessToken }))
+
+      result = await baseQuery(args, api, extraOptions)
+    } else {
+      // api.dispatch(logout())
+    }
+  }
+  return result
+}
 
 export const baseApi = createApi({
   reducerPath: 'baseApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5000/api',
-    credentials: 'include'
-  }),
-  tagTypes: ['todo'],
+  baseQuery: baseQueryWithRefreshToken,
   endpoints: () => ({})
 })
