@@ -5,8 +5,9 @@ import { logo } from '../../assets/logo'
 import { CiLogin } from 'react-icons/ci'
 import { largeScreenLinks, mobileNavbarLinks } from '../../constants/navbar'
 import { FaCircleUser } from 'react-icons/fa6'
-import { useAppDispatch } from '../../redux/hook'
-import { logout } from '../../redux/features/auth/authSlice'
+import { useAppDispatch, useAppSelector } from '../../redux/hook'
+import { logout, useCurrentToken } from '../../redux/features/auth/authSlice'
+import { verifyToken } from '../../utils/decodeToken'
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -30,6 +31,8 @@ const Navbar = () => {
   const closeSidebar = () => {
     setIsSidebarOpen(false)
   }
+
+  const token = useAppSelector(useCurrentToken)
 
   const items: MenuProps['items'] = [
     {
@@ -84,60 +87,51 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* Avatar and login/register buttons */}
+        {/* Avatar and login buttons */}
         <div className='flex items-center space-x-4'>
-          <Dropdown trigger={['click']} menu={{ items }} placement='bottom'>
-            <Button
-              style={{
-                border: 'none',
-                padding: '6px',
-                borderRadius: '50%',
-                backgroundColor: '#56A7DC',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
-                transition: 'background-color 0.3s ease'
-              }}
-              type='text'>
-              <FaCircleUser className='text-white text-xl' />
-            </Button>
-          </Dropdown>
-
-          <div className='hidden lg:flex space-x-4'>
-            <Link
-              to={'/register'}
-              className={`relative text-lg font-medium text-primary-600 hover:text-secondary-500 transition-all duration-300 ease-in-out ${
-                location.pathname === '/register'
-                  ? 'font-semibold border-b-2 border-secondary-500'
-                  : ''
-              }`}>
-              Register
-              {/* Add underline for active link */}
-              {location.pathname === '/register' && (
-                <span className='absolute inset-x-0 bottom-0 border-b-2 border-secondary-500'></span>
-              )}
-            </Link>
-            <Link to='/login' className='text-white'>
+          {token && (
+            <Dropdown trigger={['click']} menu={{ items }} placement='bottom'>
               <Button
-                type='primary'
-                icon={
-                  <CiLogin
-                    style={{
-                      fontWeight: 800,
-                      fontSize: '18px',
-                      color: '#ffffff'
-                    }}
-                  />
-                }
-                className={` ${
-                  location.pathname === '/login'
-                    ? 'bg-primary-600'
-                    : 'bg-secondary-500'
-                } text-white font-medium rounded-md px-4 py-2 flex items-center`}>
-                Login
+                style={{
+                  border: 'none',
+                  padding: '6px',
+                  borderRadius: '50%',
+                  backgroundColor: '#56A7DC',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+                  transition: 'background-color 0.3s ease'
+                }}
+                type='text'>
+                <FaCircleUser className='text-white text-xl' />
               </Button>
-            </Link>
+            </Dropdown>
+          )}
+
+          <div>
+            {!token && (
+              <Link to='/login' className='text-white'>
+                <Button
+                  type='primary'
+                  icon={
+                    <CiLogin
+                      style={{
+                        fontWeight: 800,
+                        fontSize: '18px',
+                        color: '#ffffff'
+                      }}
+                    />
+                  }
+                  className={` ${
+                    location.pathname === '/login'
+                      ? 'bg-primary-600'
+                      : 'bg-secondary-500'
+                  } text-white font-medium rounded-md px-4 py-2 flex items-center`}>
+                  Login
+                </Button>
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
