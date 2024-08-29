@@ -15,5 +15,10 @@ export const signUpSchema = z.object({
     .regex(/^01[3-9]\d{8}$/, 'Invalid phone number format'),
   address: z
     .string({ required_error: 'Please provide your address' })
-    .min(1, 'Address is required')
+    .min(1, 'Address is required'),
+  image: z
+    .any({ required_error: 'Please provide an image' })
+    .refine((file) => file instanceof File, {
+      message: 'Invalid file type'
+    })
 })

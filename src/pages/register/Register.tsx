@@ -7,7 +7,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 const Register = () => {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data)
+    const userData = {
+      ...data
+    }
+    console.log(userData)
   }
 
   return (
