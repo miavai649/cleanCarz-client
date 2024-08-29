@@ -193,20 +193,22 @@ const Services = () => {
                   </div>
                 </div>
 
-                <div className='mt-4 flex flex-col flex-grow'>
+                <div className='flex flex-col flex-grow mt-4'>
                   <h2 className='text-xl font-semibold text-primary-900'>
                     {service?.name}
                   </h2>
-                  <p className='text-primary-700 mt-2 flex-grow'>
+                  <p
+                    className='text-primary-700 mt-2 mb-4 flex-grow truncate overflow-hidden'
+                    style={{ maxHeight: '3rem' }}>
                     {service?.description}
                   </p>
 
-                  <div className='mt-4 flex items-center justify-between'>
-                    <p className='text-lg font-bold text-secondary-600'>
+                  <div className='flex flex-col items-center mt-auto'>
+                    <p className='text-lg font-bold text-secondary-600 mb-2'>
                       ৳{service?.price}
                     </p>
-                    <Link to={'/service-details'}>
-                      <button className='text-sm font-medium text-primary-500 hover:text-primary-700 transition-colors'>
+                    <Link to={'/service-details'} className='w-full'>
+                      <button className='w-full bg-primary-500 text-white py-2 px-4 rounded-md text-center hover:bg-primary-600 transition-colors'>
                         See Details
                       </button>
                     </Link>
