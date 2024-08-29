@@ -18,4 +18,4 @@ const serviceApi = baseApi.injectEndpoints({
   })
 })
 
-export const { useGetAllServiceQuery } = serviceApi
+export const { useGetAllServiceQuery, useAddServiceMutation } = serviceApi

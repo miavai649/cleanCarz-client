@@ -18,7 +18,7 @@ const ServiceDetails = () => {
   ]
   const bookedSlots = ['11:00 AM', '01:00 PM']
 
-  const handleSlotSelection = (slot) => {
+  const handleSlotSelection = (slot: any) => {
     setSelectedSlot(slot)
   }
 

@@ -6,9 +6,15 @@ import { Controller, FieldValues, SubmitHandler } from 'react-hook-form'
 import { Button, Form, Input, Modal } from 'antd'
 import { zodResolver } from '@hookform/resolvers/zod'
 import addServiceSchema from '../../schemas/service.schema'
+import { useAddServiceMutation } from '../../redux/features/service/serviceApi'
+import { toast } from 'sonner'
+import { TResponse, TService } from '../../types'
 
 const AddServiceModal = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
+
+  const [addService] = useAddServiceMutation()
 
   const showModal = () => {
     setIsModalOpen(true)
@@ -22,27 +28,62 @@ const AddServiceModal = () => {
     setIsModalOpen(false)
   }
 
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const facultyData = {
-      ...data
+  const uploadImageToCloudinary = async (file: File) => {
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('upload_preset', 'imageUpload')
+    formData.append('cloud_name', 'dupg5agtg')
+
+    try {
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/dupg5agtg/image/upload`,
+        {
+          method: 'POST',
+          body: formData
+        }
+      )
+      const data = await response.json()
+      return data.secure_url
+    } catch (error) {
+      console.error('Error uploading image:', error)
+      return null
     }
-    console.log(
-      '🚀 ~ constonSubmit:SubmitHandler<FieldValues>= ~ facultyData:',
-      facultyData
-    )
+  }
 
-    // try {
-    //   const res = (await addFaculties(facultyData)) as TResponse<any>
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    setLoading(true)
+    let uploadedImageUrl = null
 
-    //   if (res?.error) {
-    //     toast.error(res.error.data.message, { id: toastId })
-    //   } else {
-    //     toast.success('Faculties added successfully', { id: toastId })
-    //   }
-    // } catch (error) {
-    //   toast.error('Something went wrong', { id: toastId })
-    // }
+    if (data.image instanceof File) {
+      uploadedImageUrl = await uploadImageToCloudinary(data.image)
+    }
 
+    if (uploadedImageUrl) {
+      const serviceData = {
+        ...data,
+        price: Number(data.price),
+        duration: Number(data.duration),
+        image: uploadedImageUrl
+      }
+
+      try {
+        const res = (await addService(serviceData)) as TResponse<TService>
+
+        if (res.error) {
+          toast.error('Failed to create service', {
+            duration: 2000
+          })
+        } else {
+          toast.success('Service created successfully', {
+            duration: 2000
+          })
+        }
+      } catch (error) {
+        toast.error('Something went wrong')
+      }
+    }
+
+    setLoading(false)
     handleOk()
   }
 
@@ -76,15 +117,14 @@ const AddServiceModal = () => {
         <CForm onSubmit={onSubmit} resolver={zodResolver(addServiceSchema)}>
           <CInput name='name' type='text' label='Name' />
           <CInput name='description' type='text' label='Description' />
-          <CInput name='price' type='text' label='Price' />
-          <CInput name='duration' type='text' label='Duration' />
+          <CInput name='price' type='number' label='Price' />
+          <CInput name='duration' type='number' label='Duration' />
           <Controller
             name='image'
             render={({ field: { onChange, value, ...field } }) => (
               <Form.Item label={'Image'}>
                 <Input
                   type='file'
-                  value={value?.filename}
                   size='large'
                   {...field}
                   onChange={(e) => onChange(e?.target?.files?.[0])}
@@ -94,7 +134,8 @@ const AddServiceModal = () => {
           />
           <Button
             style={{ background: '#56A7DC', color: 'white' }}
-            htmlType='submit'>
+            htmlType='submit'
+            loading={loading}>
             Submit
           </Button>
         </CForm>
