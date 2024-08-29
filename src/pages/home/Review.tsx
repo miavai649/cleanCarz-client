@@ -20,14 +20,6 @@ const Review = () => {
     }
   ])
 
-  setReviews([
-    {
-      id: 3,
-      rating: 3,
-      feedback: 'Service was okay, but the waiting time was too long.'
-    }
-  ])
-
   const {
     register,
     handleSubmit,

@@ -5,26 +5,14 @@ import { logo } from '../../assets/logo'
 import { CiLogin } from 'react-icons/ci'
 import { largeScreenLinks, mobileNavbarLinks } from '../../constants/navbar'
 import { FaCircleUser } from 'react-icons/fa6'
-
-const items: MenuProps['items'] = [
-  {
-    key: '2',
-    label: (
-      <Link to={'/admin/service-management'}>
-        <button>Dashboard</button>
-      </Link>
-    )
-  },
-  {
-    key: '1',
-    label: <button>Log out</button>
-  }
-]
+import { useAppDispatch } from '../../redux/hook'
+import { logout } from '../../redux/features/auth/authSlice'
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const location = useLocation()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -42,6 +30,21 @@ const Navbar = () => {
   const closeSidebar = () => {
     setIsSidebarOpen(false)
   }
+
+  const items: MenuProps['items'] = [
+    {
+      key: '2',
+      label: (
+        <Link to={'/admin/service-management'}>
+          <button>Dashboard</button>
+        </Link>
+      )
+    },
+    {
+      key: '1',
+      label: <button onClick={() => dispatch(logout())}>Log out</button>
+    }
+  ]
 
   return (
     <nav
