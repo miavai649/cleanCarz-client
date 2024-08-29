@@ -1,7 +1,8 @@
-import { Button, Space, Table, TableColumnsType } from 'antd'
+import { Button, Modal, Space, Table, TableColumnsType } from 'antd'
 import { Link } from 'react-router-dom'
 import AddServiceModal from '../../components/modal/AddServiceModal'
 import UpdateServiceModal from '../../components/modal/UpdateServiceModal'
+import { ExclamationCircleFilled } from '@ant-design/icons'
 
 interface TServiceData {
   _id: string
@@ -15,6 +16,26 @@ interface TServiceData {
 }
 
 const ServiceManagement = () => {
+  const { confirm } = Modal
+
+  const showPromiseConfirm = () => {
+    confirm({
+      title: 'Are you sure you want to delete this service?',
+      icon: <ExclamationCircleFilled />,
+      content:
+        'This action cannot be undone. The service will be permanently removed.',
+      okText: 'Delete',
+      okType: 'danger',
+      cancelText: 'Cancel',
+      onOk() {
+        console.log('Service deleted')
+      },
+      onCancel() {
+        console.log('Deletion canceled')
+      }
+    })
+  }
+
   // Dummy data
   const serviceData: TServiceData[] = [
     {
@@ -54,28 +75,34 @@ const ServiceManagement = () => {
     {
       key: 'name',
       title: 'Service Name',
+      align: 'center',
       dataIndex: 'name'
     },
     {
       key: 'price',
       title: 'Price ($)',
+      align: 'center',
       dataIndex: 'price'
     },
     {
       key: 'duration',
       title: 'Duration (min)',
+      align: 'center',
       dataIndex: 'duration'
     },
     {
       key: 'action',
       title: 'Action',
+      align: 'center',
       render: (item) => (
         <Space>
           <Link to={`/admin/service-details/${item._id}`}>
             <Button>Details</Button>
           </Link>
           <UpdateServiceModal />
-          <Button danger>Delete</Button>
+          <Button danger onClick={showPromiseConfirm}>
+            Delete
+          </Button>
         </Space>
       ),
       width: '1%'

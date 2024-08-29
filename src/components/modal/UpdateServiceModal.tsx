@@ -1,6 +1,5 @@
 import CForm from '../../components/form/CForm'
 import CInput from '../../components/form/CInput'
-import { FaPlus } from 'react-icons/fa6'
 import { useState } from 'react'
 import { Controller, FieldValues, SubmitHandler } from 'react-hook-form'
 import { Button, Form, Input, Modal } from 'antd'
