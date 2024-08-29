@@ -2,10 +2,39 @@ import { FieldValues, SubmitHandler } from 'react-hook-form'
 import CForm from '../../components/form/CForm'
 import CInput from '../../components/form/CInput'
 import CPasswordInput from '../../components/form/CPasswordInput'
+import { useLoginMutation } from '../../redux/features/auth/authApi'
+import { Button } from 'antd'
+import { toast } from 'sonner'
+import { TResponse } from '../../types'
+import { TUser } from '../../types/user.type'
+import { verifyToken } from '../../utils/decodeToken'
+import { setUser, TUserDecoded } from '../../redux/features/auth/authSlice'
+import { useAppDispatch } from '../../redux/hook'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data)
+  const [login, { isLoading }] = useLoginMutation()
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    try {
+      const res = (await login(data).unwrap()) as TResponse<TUser>
+      console.log('🚀 ~ constonSubmit:SubmitHandler<FieldValues>= ~ res:', res)
+
+      if (res.error) {
+        toast.error(res?.error?.data?.message, { duration: 2000 })
+      } else {
+        const user = (await verifyToken(res.token as string)) as TUserDecoded
+        dispatch(setUser({ user: user, token: res.token }))
+        toast.success('User logged in successfully', { duration: 2000 })
+        navigate('/')
+      }
+    } catch (error) {
+      toast.error('Something went problem', {
+        duration: 2000
+      })
+    }
   }
 
   return (
@@ -28,11 +57,24 @@ const Login = () => {
           <CForm onSubmit={onSubmit}>
             <CInput name='email' type='email' label='Email' />
             <CPasswordInput name='password' type='text' label='Password' />
-            <button
-              type='submit'
-              className='w-full text-center py-3 rounded bg-primary-800 text-white hover:bg-green-dark focus:outline-none my-1'>
-              Log in
-            </button>
+            <Button
+              loading={isLoading}
+              htmlType='submit'
+              style={{
+                width: '100%',
+                textAlign: 'center',
+                fontSize: '18px',
+                fontWeight: 600,
+                padding: '20px 0px',
+                borderRadius: '0.375rem',
+                backgroundColor: '#418FC8',
+                color: 'white',
+                outline: 'none',
+                marginTop: '0.25rem',
+                marginBottom: '0.25rem'
+              }}>
+              Register
+            </Button>
           </CForm>
         </div>
 

@@ -9,9 +9,11 @@ import { Button } from 'antd'
 import { TResponse } from '../../types'
 import { TUser } from '../../types/user.type'
 import { toast } from 'sonner'
+import { useNavigate } from 'react-router-dom'
 
 const Register = () => {
   const [registerUser, { isLoading }] = useRegisterMutation()
+  const navigate = useNavigate()
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const toastId = toast.loading('Creating...')
@@ -23,7 +25,6 @@ const Register = () => {
 
     try {
       const res = (await registerUser(userData).unwrap()) as TResponse<TUser>
-      console.log('🚀 ~ constonSubmit:SubmitHandler<FieldValues>= ~ res:', res)
 
       if (res.error) {
         toast.error('Failed to register user', { id: toastId, duration: 2000 })
@@ -32,6 +33,7 @@ const Register = () => {
           id: toastId,
           duration: 2000
         })
+        navigate('/login')
       }
     } catch (error) {
       toast.error('Something went wrong', { id: toastId, duration: 2000 })
@@ -72,7 +74,7 @@ const Register = () => {
                 fontWeight: 600,
                 padding: '20px 0px',
                 borderRadius: '0.375rem',
-                backgroundColor: '#418FC8', // Adjust to your actual primary color
+                backgroundColor: '#418FC8',
                 color: 'white',
                 outline: 'none',
                 marginTop: '0.25rem',
