@@ -9,16 +9,9 @@ export const signUpSchema = z.object({
     .email('Invalid email address'),
   password: z
     .string({ required_error: 'Please provide a password' })
-    .min(8, 'Password must be at least 8 characters long'),
-  phoneNumber: z
-    .string({ required_error: 'Please provide your phone number' })
-    .regex(/^01[3-9]\d{8}$/, 'Invalid phone number format'),
+    .min(5, 'Password must be at least 8 characters long'),
+  phone: z.string({ required_error: 'Please provide your phone number' }),
   address: z
     .string({ required_error: 'Please provide your address' })
-    .min(1, 'Address is required'),
-  image: z
-    .any({ required_error: 'Please provide an image' })
-    .refine((file) => file instanceof File, {
-      message: 'Invalid file type'
-    })
+    .min(1, 'Address is required')
 })

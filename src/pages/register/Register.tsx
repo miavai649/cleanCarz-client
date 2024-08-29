@@ -4,13 +4,38 @@ import CInput from '../../components/form/CInput'
 import CPasswordInput from '../../components/form/CPasswordInput'
 import { signUpSchema } from '../../schemas/auth.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRegisterMutation } from '../../redux/features/auth/authApi'
+import { Button } from 'antd'
+import { TResponse } from '../../types'
+import { TUser } from '../../types/user.type'
+import { toast } from 'sonner'
 
 const Register = () => {
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+  const [registerUser, { isLoading }] = useRegisterMutation()
+
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const toastId = toast.loading('Creating...')
+
     const userData = {
-      ...data
+      ...data,
+      role: 'user'
     }
-    console.log(userData)
+
+    try {
+      const res = (await registerUser(userData).unwrap()) as TResponse<TUser>
+      console.log('🚀 ~ constonSubmit:SubmitHandler<FieldValues>= ~ res:', res)
+
+      if (res.error) {
+        toast.error('Failed to register user', { id: toastId, duration: 2000 })
+      } else {
+        toast.success('User registered successfully', {
+          id: toastId,
+          duration: 2000
+        })
+      }
+    } catch (error) {
+      toast.error('Something went wrong', { id: toastId, duration: 2000 })
+    }
   }
 
   return (
@@ -35,13 +60,26 @@ const Register = () => {
             <CInput name='name' type='text' label='Full Name' />
             <CInput name='email' type='email' label='Email' />
             <CPasswordInput name='password' type='text' label='Password' />
-            <CInput name='phoneNumber' type='text' label='Phone Number' />
+            <CInput name='phone' type='text' label='Phone Number' />
             <CInput name='address' type='text' label='Address' />
-            <button
-              type='submit'
-              className='w-full text-center py-3 rounded bg-primary-800 text-white hover:bg-green-dark focus:outline-none my-1'>
+            <Button
+              loading={isLoading}
+              htmlType='submit'
+              style={{
+                width: '100%',
+                textAlign: 'center',
+                fontSize: '18px',
+                fontWeight: 600,
+                padding: '20px 0px',
+                borderRadius: '0.375rem',
+                backgroundColor: '#418FC8', // Adjust to your actual primary color
+                color: 'white',
+                outline: 'none',
+                marginTop: '0.25rem',
+                marginBottom: '0.25rem'
+              }}>
               Register
-            </button>
+            </Button>
           </CForm>
 
           <div className='text-center text-sm text-grey-dark mt-4'>
