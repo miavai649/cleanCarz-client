@@ -7,7 +7,6 @@ import { largeScreenLinks, mobileNavbarLinks } from '../../constants/navbar'
 import { FaCircleUser } from 'react-icons/fa6'
 import { useAppDispatch, useAppSelector } from '../../redux/hook'
 import { logout, useCurrentToken } from '../../redux/features/auth/authSlice'
-import { verifyToken } from '../../utils/decodeToken'
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false)

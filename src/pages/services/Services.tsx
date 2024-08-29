@@ -176,41 +176,44 @@ const Services = () => {
 
         {/* products section */}
         <div className='flex-1 rounded-md mx-auto'>
-          <div className=' grid   grid-cols-1 gap-6  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
-            <div className='rounded-lg bg-white p-4 shadow-lg transform transition-transform duration-300 hover:scale-105 hover:shadow-xl'>
-              <div className='relative rounded-lg overflow-hidden'>
-                <img
-                  src='https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
-                  alt='Car Wash Service'
-                  className='w-full h-48 object-cover'
-                />
-                <div className='absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-75'></div>
-                <div className='absolute bottom-4 left-4'>
-                  <span className='text-white text-sm font-semibold bg-primary-500 px-3 py-1 rounded-md'>
-                    30 Minutes
-                  </span>
+          <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+            {serviceData?.data?.map((service) => (
+              <div className='rounded-lg bg-white p-4 shadow-lg transform transition-transform duration-300 hover:scale-105 hover:shadow-xl flex flex-col'>
+                <div className='relative rounded-lg overflow-hidden'>
+                  <img
+                    src={service?.image}
+                    alt='Car Wash Service'
+                    className='w-full h-48 object-cover'
+                  />
+                  <div className='absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-75'></div>
+                  <div className='absolute bottom-4 left-4'>
+                    <span className='text-white text-sm font-semibold bg-primary-500 px-3 py-1 rounded-md'>
+                      {service?.duration} Minutes
+                    </span>
+                  </div>
+                </div>
+
+                <div className='mt-4 flex flex-col flex-grow'>
+                  <h2 className='text-xl font-semibold text-primary-900'>
+                    {service?.name}
+                  </h2>
+                  <p className='text-primary-700 mt-2 flex-grow'>
+                    {service?.description}
+                  </p>
+
+                  <div className='mt-4 flex items-center justify-between'>
+                    <p className='text-lg font-bold text-secondary-600'>
+                      ৳{service?.price}
+                    </p>
+                    <Link to={'/service-details'}>
+                      <button className='text-sm font-medium text-primary-500 hover:text-primary-700 transition-colors'>
+                        See Details
+                      </button>
+                    </Link>
+                  </div>
                 </div>
               </div>
-
-              <div className='mt-4'>
-                <h2 className='text-xl font-semibold text-primary-900'>
-                  Premium Car Wash
-                </h2>
-                <p className='text-primary-700 mt-2'>
-                  A comprehensive car wash that includes interior and exterior
-                  cleaning.
-                </p>
-
-                <div className='mt-4 flex items-center justify-between'>
-                  <p className='text-lg font-bold text-secondary-600'>$25.00</p>
-                  <Link to={'/service-details'}>
-                    <button className='text-sm font-medium text-primary-500 hover:text-primary-700 transition-colors'>
-                      See Details
-                    </button>
-                  </Link>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
