@@ -59,7 +59,7 @@ const Footer = () => {
         </ul>
       </div>
       <div className='bg-secondary-500 text-center py-4'>
-        <p className='text-white text-sm'>
+        <p className='text-black text-sm'>
           © RentWheels - 2024 | All Rights Reserved. Designed By Prince Rubel
         </p>
       </div>
