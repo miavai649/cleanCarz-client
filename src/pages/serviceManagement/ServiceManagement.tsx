@@ -4,17 +4,9 @@ import AddServiceModal from '../../components/modal/AddServiceModal'
 import UpdateServiceModal from '../../components/modal/UpdateServiceModal'
 import { ExclamationCircleFilled } from '@ant-design/icons'
 import { useGetAllServiceQuery } from '../../redux/features/service/serviceApi'
+import { TService } from '../../types'
 
-interface TServiceData {
-  _id: string
-  name: string
-  description: string
-  price: number
-  duration: number
-  isDeleted: boolean
-  createdAt: string
-  updatedAt: string
-}
+export type TTableData = Pick<TService, 'name' | 'price' | 'duration'>
 
 const ServiceManagement = () => {
   const { confirm } = Modal
@@ -37,45 +29,19 @@ const ServiceManagement = () => {
     })
   }
 
-  // Dummy data
-  const serviceData: TServiceData[] = [
-    {
-      _id: '60d9c4e4f3b4b544b8b8d1c5',
-      name: 'Car Wash',
-      description: 'Professional car washing service',
-      price: 50,
-      duration: 60,
-      isDeleted: false,
-      createdAt: '2024-06-15T12:00:00Z',
-      updatedAt: '2024-06-15T12:00:00Z'
-    },
-    {
-      _id: '60d9c4e4f3b4b544b8b8d1c6',
-      name: 'Interior Cleaning',
-      description: 'Comprehensive interior cleaning',
-      price: 75,
-      duration: 90,
-      isDeleted: false,
-      createdAt: '2024-06-16T12:00:00Z',
-      updatedAt: '2024-06-16T12:00:00Z'
-    },
-    {
-      _id: '60d9c4e4f3b4b544b8b8d1c7',
-      name: 'Engine Detailing',
-      description: 'Engine cleaning and detailing',
-      price: 100,
-      duration: 120,
-      isDeleted: false,
-      createdAt: '2024-06-17T12:00:00Z',
-      updatedAt: '2024-06-17T12:00:00Z'
-    }
-  ]
-
   const { data: servicesData } = useGetAllServiceQuery({})
-  console.log('🚀 ~ ServiceManagement ~ servicesData:', servicesData)
+
+  const tableData = servicesData?.data?.map(
+    ({ _id, name, price, duration }) => ({
+      key: _id,
+      name,
+      price,
+      duration
+    })
+  )
 
   // Table columns
-  const columns: TableColumnsType<TServiceData> = [
+  const columns: TableColumnsType<TTableData> = [
     {
       key: 'name',
       title: 'Service Name',
@@ -100,11 +66,16 @@ const ServiceManagement = () => {
       align: 'center',
       render: (item) => (
         <Space>
-          <Link to={`/admin/service-details/${item._id}`}>
+          <Link
+            to={`/admin/service-details/${item._id}`}
+            key={`${item._id}-details`}>
             <Button>Details</Button>
           </Link>
-          <UpdateServiceModal />
-          <Button danger onClick={showPromiseConfirm}>
+          <UpdateServiceModal key={`${item._id}-update`} />
+          <Button
+            key={`${item._id}-delete`}
+            danger
+            onClick={showPromiseConfirm}>
             Delete
           </Button>
         </Space>
@@ -123,7 +94,7 @@ const ServiceManagement = () => {
         scroll={{ x: 1300 }}
         style={{ scrollBehavior: 'auto' }}
         columns={columns}
-        dataSource={serviceData}
+        dataSource={tableData}
         rowKey='_id'
         pagination={false}
       />

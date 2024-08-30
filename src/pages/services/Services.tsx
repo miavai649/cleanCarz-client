@@ -3,7 +3,6 @@ import { Input, Radio, RadioChangeEvent, Space } from 'antd'
 import { useEffect, useState } from 'react'
 import { FiFilter } from 'react-icons/fi'
 import FilterCard from '../../components/cards/FilterCard'
-import { Link } from 'react-router-dom'
 import { useGetAllServiceQuery } from '../../redux/features/service/serviceApi'
 import Spinner from '../../components/spinner/Spinner'
 import ServiceCard from '../../components/cards/ServiceCard'
@@ -74,7 +73,7 @@ const Services = () => {
     content = (
       <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
         {serviceData?.data?.map((service) => (
-          <ServiceCard service={service} />
+          <ServiceCard key={service?._id} service={service} />
         ))}
       </div>
     )
@@ -213,7 +212,7 @@ const Services = () => {
           </div>
         </div>
 
-        {/* products section */}
+        {/* services section */}
         <div className='flex-1 rounded-md mx-auto'>{content}</div>
       </div>
     </div>
