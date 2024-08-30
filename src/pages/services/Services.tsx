@@ -9,7 +9,9 @@ import Spinner from '../../components/spinner/Spinner'
 
 const Services = () => {
   const [capacity, setCapacity] = useState(10)
+  console.log('🚀 ~ Services ~ capacity:', capacity)
   const [sortOrder, setSortOrder] = useState('')
+  console.log('🚀 ~ Services ~ sortOrder:', sortOrder)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   // getting services data

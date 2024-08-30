@@ -1,5 +1,6 @@
 import { SearchOutlined } from '@ant-design/icons'
 import { Button, Input, Radio, RadioChangeEvent, Select, Space } from 'antd'
+import { useState } from 'react'
 
 type TFilterCardProps = {
   capacity: number
@@ -14,6 +15,34 @@ const FilterCard = ({
   onChange,
   sortOrder
 }: TFilterCardProps) => {
+  const [selectedOption, setSelectedOption] = useState({
+    value: capacity,
+    label: `${capacity} Minutes`
+  })
+
+  const decreaseCapacity = () => {
+    const newCapacity = capacity - 1
+    setCapacity(newCapacity)
+    setSelectedOption({
+      value: newCapacity,
+      label: `${newCapacity} Minutes`
+    })
+  }
+
+  const increaseCapacity = () => {
+    const newCapacity = capacity + 1
+    setCapacity(newCapacity)
+    setSelectedOption({
+      value: newCapacity,
+      label: `${newCapacity} Minutes`
+    })
+  }
+
+  const handleSelectChange = (option: { value: number; label: string }) => {
+    setCapacity(option.value)
+    setSelectedOption(option)
+  }
+
   return (
     <div className='hidden lg:flex'>
       <div className='lg:w-80 md:w-80 border shadow-lg p-5 rounded-lg mx-auto bg-white '>
@@ -40,18 +69,17 @@ const FilterCard = ({
 
         <div className='pt-7'>
           <p className='text-base font-semibold text-gray-600'>
-            Filter by capacity ({capacity} people)
+            Filter by duration ({capacity} minutes)
           </p>
           <div className='flex items-center gap-2 mt-4'>
             <Button
               className='bg-gray-200 hover:bg-gray-300 rounded-lg transition-all'
               style={{ height: '50px', width: '50px' }}
-              // onClick={decreaseCapacity}
-            >
+              onClick={decreaseCapacity}>
               -
             </Button>
             <Select
-              value={capacity}
+              value={selectedOption}
               style={{
                 width: '100px',
                 flex: 1,
@@ -60,17 +88,17 @@ const FilterCard = ({
                 borderRadius: '10px',
                 boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)'
               }}
-              onChange={(value) => setCapacity(value)}
+              labelInValue
+              onChange={handleSelectChange}
               options={Array.from({ length: 6 }, (_, i) => ({
                 value: (i + 1) * 10,
-                label: `${(i + 1) * 10} Minute`
+                label: `${(i + 1) * 10} Minutes`
               }))}
             />
             <Button
               className='bg-gray-200 hover:bg-gray-300 rounded-lg transition-all'
               style={{ height: '50px', width: '50px' }}
-              // onClick={increaseCapacity}
-            >
+              onClick={increaseCapacity}>
               +
             </Button>
           </div>
