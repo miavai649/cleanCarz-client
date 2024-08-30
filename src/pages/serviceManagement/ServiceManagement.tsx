@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import AddServiceModal from '../../components/modal/AddServiceModal'
 import UpdateServiceModal from '../../components/modal/UpdateServiceModal'
 import { ExclamationCircleFilled } from '@ant-design/icons'
+import { useGetAllServiceQuery } from '../../redux/features/service/serviceApi'
 
 interface TServiceData {
   _id: string
@@ -69,6 +70,9 @@ const ServiceManagement = () => {
       updatedAt: '2024-06-17T12:00:00Z'
     }
   ]
+
+  const { data: servicesData } = useGetAllServiceQuery({})
+  console.log('🚀 ~ ServiceManagement ~ servicesData:', servicesData)
 
   // Table columns
   const columns: TableColumnsType<TServiceData> = [
