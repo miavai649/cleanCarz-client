@@ -29,7 +29,7 @@ const ServiceManagement = () => {
     })
   }
 
-  const { data: servicesData } = useGetAllServiceQuery({})
+  const { data: servicesData, isLoading } = useGetAllServiceQuery({})
 
   const tableData = servicesData?.data?.map(
     ({ _id, name, price, duration }) => ({
@@ -96,6 +96,7 @@ const ServiceManagement = () => {
         <AddServiceModal />
       </div>
       <Table
+        loading={isLoading}
         scroll={{ x: 1300 }}
         style={{ scrollBehavior: 'auto' }}
         columns={columns}

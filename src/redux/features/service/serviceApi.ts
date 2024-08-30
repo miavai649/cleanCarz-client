@@ -48,12 +48,20 @@ const serviceApi = baseApi.injectEndpoints({
     }),
     updateService: builder.mutation({
       query: (args) => {
-        // console.log(args.data)
-
         return {
           url: `/services/${args.serviceId}`,
           method: 'PUT',
           body: args.data
+        }
+      },
+      invalidatesTags: ['service']
+    }),
+    deleteService: builder.mutation({
+      query: (args) => {
+        return {
+          url: `/services/${args}`,
+          method: 'DELETE',
+          body: args
         }
       },
       invalidatesTags: ['service']
