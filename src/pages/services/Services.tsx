@@ -1,6 +1,6 @@
 import { SearchOutlined } from '@ant-design/icons'
-import { Button, Input, Radio, RadioChangeEvent, Select, Space } from 'antd'
-import { useState } from 'react'
+import { Input, Radio, RadioChangeEvent, Space } from 'antd'
+import { useEffect, useState } from 'react'
 import { FiFilter } from 'react-icons/fi'
 import FilterCard from '../../components/cards/FilterCard'
 import { Link } from 'react-router-dom'
@@ -8,14 +8,36 @@ import { useGetAllServiceQuery } from '../../redux/features/service/serviceApi'
 import Spinner from '../../components/spinner/Spinner'
 
 const Services = () => {
-  const [capacity, setCapacity] = useState(10)
-  console.log('🚀 ~ Services ~ capacity:', capacity)
   const [sortOrder, setSortOrder] = useState('')
-  console.log('🚀 ~ Services ~ sortOrder:', sortOrder)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('')
+  const [duration, setDuration] = useState(0)
+  const [debouncedDuration, setDebouncedDuration] = useState(0)
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm)
+      setDebouncedDuration(duration)
+    }, 1500)
+
+    return () => {
+      clearTimeout(handler)
+    }
+  }, [searchTerm, duration])
 
   // getting services data
-  const { data: serviceData, isLoading } = useGetAllServiceQuery(undefined)
+  const { data: serviceData, isLoading } = useGetAllServiceQuery({
+    duration: debouncedDuration,
+    searchTerm: debouncedSearchTerm,
+    sortOrder
+  })
+
+  const handleClearFilter = () => {
+    setSearchTerm('')
+    setDuration(0)
+    setSortOrder('')
+  }
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen)
@@ -31,8 +53,22 @@ const Services = () => {
 
   let content
 
+  /**
+   * if isLoading true then it will show Spinner
+   * if the data array is empty then it will show "no service available"
+   * if the data array is not empty then it will show data
+   */
+
   if (isLoading) {
     content = <Spinner />
+  } else if (!serviceData?.data?.length) {
+    content = (
+      <div className='flex justify-center items-center h-96'>
+        <p className='text-xl font-semibold text-gray-500'>
+          No service available
+        </p>
+      </div>
+    )
   } else {
     content = (
       <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
@@ -99,10 +135,13 @@ const Services = () => {
       <div className='flex lg:flex-row md:flex-row flex-col items-start gap-6 my-3 pt-5'>
         {/* filter section */}
         <FilterCard
-          capacity={capacity}
-          setCapacity={setCapacity}
+          duration={duration}
+          setDuration={setDuration}
           onChange={onChange}
           sortOrder={sortOrder}
+          setSearchTerm={setSearchTerm}
+          searchTerm={searchTerm}
+          handleClearFilter={handleClearFilter}
         />
 
         {/* Mobile Menu Button and search box */}
@@ -130,6 +169,8 @@ const Services = () => {
                 paddingLeft: '15px',
                 boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)'
               }}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               className='transition-all hover:shadow-lg focus:shadow-lg focus:outline-none w-full'
             />
           </div>
@@ -169,46 +210,27 @@ const Services = () => {
             <div className='space-y-6'>
               {/* Clear Filter Button */}
               <div className='flex justify-end'>
-                <button className='bg-secondary-500 hover:bg-secondary-600 px-3 py-2 rounded-lg text-white font-semibold shadow-md'>
+                <button
+                  onClick={handleClearFilter}
+                  className='bg-secondary-500 hover:bg-secondary-600 px-3 py-2 rounded-lg text-white font-semibold shadow-md'>
                   Clear Filters
                 </button>
               </div>
 
-              {/* Capacity Filter */}
-              <div className='border border-gray-200 shadow-md p-4 rounded-lg bg-white'>
-                <p className='text-base font-semibold text-gray-600'>
-                  Filter by capacity ({capacity} people)
-                </p>
-                <div className='flex items-center gap-2 mt-4'>
-                  <Button
-                    className='bg-gray-200 hover:bg-gray-300 rounded-lg transition-all'
-                    style={{ height: '40px', width: '40px' }}
-                    // onClick={decreaseCapacity}
-                  >
-                    -
-                  </Button>
-                  <Select
-                    value={capacity}
-                    style={{
-                      width: '80px',
-                      textAlign: 'center',
-                      height: '40px',
-                      borderRadius: '8px',
-                      boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)'
-                    }}
-                    onChange={(value) => setCapacity(value)}
-                    options={Array.from({ length: 6 }, (_, i) => ({
-                      value: (i + 1) * 10,
-                      label: `${(i + 1) * 10} Minute`
-                    }))}
-                  />
-                  <Button
-                    className='bg-gray-200 hover:bg-gray-300 rounded-lg transition-all'
-                    style={{ height: '40px', width: '40px' }}
-                    // onClick={increaseCapacity}
-                  >
-                    +
-                  </Button>
+              {/* filter by duration */}
+              <div className='pt-7'>
+                <p className='text-sm font-semibold'>Filter with duration</p>
+                <input
+                  type='range'
+                  min={0}
+                  max={100}
+                  value={duration}
+                  onChange={(e) => setDuration(Number(e.target.value))}
+                  className='outline-none w-full mt-2'
+                />
+                <div className='flex items-center justify-between text-sm'>
+                  <p>{duration} min</p>
+                  <p>100 min</p>
                 </div>
               </div>
 
