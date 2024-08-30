@@ -24,6 +24,22 @@ const serviceApi = baseApi.injectEndpoints({
       },
       providesTags: ['service']
     }),
+    getService: builder.query({
+      query: (args) => {
+        console.log(args)
+
+        return {
+          url: `/services/${args}`,
+          method: 'GET'
+        }
+      },
+      transformResponse: (response: TResponseRedux<TService>) => {
+        return {
+          data: response.data
+        }
+      },
+      providesTags: ['service']
+    }),
     addService: builder.mutation({
       query: (data) => ({
         url: '/services',
@@ -35,4 +51,8 @@ const serviceApi = baseApi.injectEndpoints({
   })
 })
 
-export const { useGetAllServiceQuery, useAddServiceMutation } = serviceApi
+export const {
+  useGetAllServiceQuery,
+  useAddServiceMutation,
+  useGetServiceQuery
+} = serviceApi

@@ -3,9 +3,16 @@ import CInput from '../../components/form/CInput'
 import { useState } from 'react'
 import { Controller, FieldValues, SubmitHandler } from 'react-hook-form'
 import { Button, Form, Input, Modal } from 'antd'
+import { useGetServiceQuery } from '../../redux/features/service/serviceApi'
 
-const UpdateServiceModal = () => {
+type TUpdateServiceModalProps = {
+  serviceId: string
+}
+
+const UpdateServiceModal = ({ serviceId }: TUpdateServiceModalProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const { data: serviceData } = useGetServiceQuery(serviceId)
 
   const showModal = () => {
     setIsModalOpen(true)
@@ -44,10 +51,7 @@ const UpdateServiceModal = () => {
   }
 
   const defaultValue = {
-    name: 'Interior Cleaning',
-    description: 'Comprehensive interior cleaning',
-    price: 75,
-    duration: 90
+    ...serviceData?.data
   }
 
   return (

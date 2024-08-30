@@ -64,22 +64,27 @@ const ServiceManagement = () => {
       key: 'action',
       title: 'Action',
       align: 'center',
-      render: (item) => (
-        <Space>
-          <Link
-            to={`/admin/service-details/${item._id}`}
-            key={`${item._id}-details`}>
-            <Button>Details</Button>
-          </Link>
-          <UpdateServiceModal key={`${item._id}-update`} />
-          <Button
-            key={`${item._id}-delete`}
-            danger
-            onClick={showPromiseConfirm}>
-            Delete
-          </Button>
-        </Space>
-      ),
+      render: (item) => {
+        return (
+          <Space>
+            <Link
+              to={`/admin/service-details/${item._id}`}
+              key={`${item._id}-details`}>
+              <Button>Details</Button>
+            </Link>
+            <UpdateServiceModal
+              key={`${item._id}-update`}
+              serviceId={item?.key}
+            />
+            <Button
+              key={`${item._id}-delete`}
+              danger
+              onClick={showPromiseConfirm}>
+              Delete
+            </Button>
+          </Space>
+        )
+      },
       width: '1%'
     }
   ]
