@@ -3,7 +3,12 @@ import CInput from '../../components/form/CInput'
 import { useState } from 'react'
 import { Controller, FieldValues, SubmitHandler } from 'react-hook-form'
 import { Button, Form, Input, Modal } from 'antd'
-import { useGetServiceQuery } from '../../redux/features/service/serviceApi'
+import {
+  useGetServiceQuery,
+  useUpdateServiceMutation
+} from '../../redux/features/service/serviceApi'
+import { TResponse, TService } from '../../types'
+import { toast } from 'sonner'
 
 type TUpdateServiceModalProps = {
   serviceId: string
@@ -11,8 +16,11 @@ type TUpdateServiceModalProps = {
 
 const UpdateServiceModal = ({ serviceId }: TUpdateServiceModalProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const { data: serviceData } = useGetServiceQuery(serviceId)
+
+  const [updateService] = useUpdateServiceMutation()
 
   const showModal = () => {
     setIsModalOpen(true)
@@ -26,32 +34,72 @@ const UpdateServiceModal = ({ serviceId }: TUpdateServiceModalProps) => {
     setIsModalOpen(false)
   }
 
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const facultyData = {
-      ...data
+  // uploading image into cloudinary
+  const uploadImageToCloudinary = async (file: File) => {
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('upload_preset', 'imageUpload')
+    formData.append('cloud_name', 'dupg5agtg')
+
+    try {
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/dupg5agtg/image/upload`,
+        {
+          method: 'POST',
+          body: formData
+        }
+      )
+      const data = await response.json()
+      return data.secure_url
+    } catch (error) {
+      console.error('Error uploading image:', error)
+      return null
     }
-    console.log(
-      '🚀 ~ constonSubmit:SubmitHandler<FieldValues>= ~ facultyData:',
-      facultyData
-    )
+  }
 
-    // try {
-    //   const res = (await addFaculties(facultyData)) as TResponse<any>
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    setLoading(true)
 
-    //   if (res?.error) {
-    //     toast.error(res.error.data.message, { id: toastId })
-    //   } else {
-    //     toast.success('Faculties added successfully', { id: toastId })
-    //   }
-    // } catch (error) {
-    //   toast.error('Something went wrong', { id: toastId })
-    // }
+    try {
+      let uploadedImageUrl = null
 
-    handleOk()
+      // If image file is available then upload it to cloudinary
+      if (data.image instanceof File) {
+        uploadedImageUrl = await uploadImageToCloudinary(data.image)
+      }
+
+      //  form data
+      const formData = {
+        serviceId: serviceId,
+        data: {
+          ...data,
+          price: Number(data.price),
+          duration: Number(data.duration),
+          ...(uploadedImageUrl && { image: uploadedImageUrl })
+        }
+      }
+
+      // update the service data
+      const res = (await updateService(formData)) as TResponse<TService>
+
+      if (res.error) {
+        toast.error('Failed to update service', { duration: 2000 })
+      } else {
+        toast.success('Service updated successfully', { duration: 2000 })
+      }
+    } catch (error) {
+      toast.error('Something went wrong')
+    } finally {
+      setLoading(false)
+      handleOk()
+    }
   }
 
   const defaultValue = {
-    ...serviceData?.data
+    name: serviceData?.data?.name,
+    description: serviceData?.data?.description,
+    price: serviceData?.data?.price,
+    duration: serviceData?.data?.duration
   }
 
   return (
@@ -78,6 +126,7 @@ const UpdateServiceModal = ({ serviceId }: TUpdateServiceModalProps) => {
             )}
           />
           <Button
+            loading={loading}
             style={{ background: '#56A7DC', color: 'white' }}
             htmlType='submit'>
             Submit

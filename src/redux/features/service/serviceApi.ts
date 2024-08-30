@@ -26,8 +26,6 @@ const serviceApi = baseApi.injectEndpoints({
     }),
     getService: builder.query({
       query: (args) => {
-        console.log(args)
-
         return {
           url: `/services/${args}`,
           method: 'GET'
@@ -49,11 +47,15 @@ const serviceApi = baseApi.injectEndpoints({
       invalidatesTags: ['service']
     }),
     updateService: builder.mutation({
-      query: (args) => ({
-        url: `/services/${args.serviceId}`,
-        method: 'PUT',
-        body: args.data
-      }),
+      query: (args) => {
+        // console.log(args.data)
+
+        return {
+          url: `/services/${args.serviceId}`,
+          method: 'PUT',
+          body: args.data
+        }
+      },
       invalidatesTags: ['service']
     })
   })

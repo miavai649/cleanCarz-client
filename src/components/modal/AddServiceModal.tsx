@@ -28,6 +28,7 @@ const AddServiceModal = () => {
     setIsModalOpen(false)
   }
 
+  // uploading image into cloudinary
   const uploadImageToCloudinary = async (file: File) => {
     const formData = new FormData()
     formData.append('file', file)
