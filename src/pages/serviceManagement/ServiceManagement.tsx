@@ -3,15 +3,35 @@ import { Link } from 'react-router-dom'
 import AddServiceModal from '../../components/modal/AddServiceModal'
 import UpdateServiceModal from '../../components/modal/UpdateServiceModal'
 import { ExclamationCircleFilled } from '@ant-design/icons'
-import { useGetAllServiceQuery } from '../../redux/features/service/serviceApi'
-import { TService } from '../../types'
+import {
+  useDeleteServiceMutation,
+  useGetAllServiceQuery
+} from '../../redux/features/service/serviceApi'
+import { TResponse, TService } from '../../types'
+import { toast } from 'sonner'
 
 export type TTableData = Pick<TService, 'name' | 'price' | 'duration'>
 
 const ServiceManagement = () => {
   const { confirm } = Modal
 
-  const showPromiseConfirm = () => {
+  const [deleteService] = useDeleteServiceMutation()
+
+  const handleDeleteService = async (serviceId: string) => {
+    try {
+      const res = (await deleteService(serviceId)) as TResponse<TService>
+
+      if (res.error) {
+        toast.error('Failed to delete service', { duration: 2000 })
+      } else {
+        toast.success('Service deleted successfully', { duration: 2000 })
+      }
+    } catch (error) {
+      toast.error('Something went wrong')
+    }
+  }
+
+  const showPromiseConfirm = (serviceId: string) => {
     confirm({
       title: 'Are you sure you want to delete this service?',
       icon: <ExclamationCircleFilled />,
@@ -20,11 +40,9 @@ const ServiceManagement = () => {
       okText: 'Delete',
       okType: 'danger',
       cancelText: 'Cancel',
-      onOk() {
-        console.log('Service deleted')
-      },
+      onOk: () => handleDeleteService(serviceId),
       onCancel() {
-        console.log('Deletion canceled')
+        toast.info('Deletion canceled', { duration: 2000 })
       }
     })
   }
@@ -79,7 +97,7 @@ const ServiceManagement = () => {
             <Button
               key={`${item._id}-delete`}
               danger
-              onClick={showPromiseConfirm}>
+              onClick={() => showPromiseConfirm(item?.key)}>
               Delete
             </Button>
           </Space>
