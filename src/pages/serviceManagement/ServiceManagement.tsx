@@ -68,7 +68,7 @@ const ServiceManagement = () => {
     },
     {
       key: 'price',
-      title: 'Price ($)',
+      title: 'Price (৳)',
       align: 'center',
       dataIndex: 'price'
     },
@@ -84,18 +84,18 @@ const ServiceManagement = () => {
       align: 'center',
       render: (item) => {
         return (
-          <Space>
+          <Space key={item.key}>
             <Link
-              to={`/admin/service-details/${item._id}`}
-              key={`${item._id}-details`}>
+              to={`/service-details/${item.key}`}
+              key={`${item.key}-details`}>
               <Button>Details</Button>
             </Link>
             <UpdateServiceModal
-              key={`${item._id}-update`}
+              key={`${item.key}-update`}
               serviceId={item?.key}
             />
             <Button
-              key={`${item._id}-delete`}
+              key={`${item.key}-delete`}
               danger
               onClick={() => showPromiseConfirm(item?.key)}>
               Delete

@@ -38,7 +38,7 @@ const ServiceCard = ({ service }: TServiceProps) => {
           <p className='text-lg font-bold text-secondary-600 mb-2'>
             ৳{service?.price}
           </p>
-          <Link to={'/service-details'} className='w-full'>
+          <Link to={`/service-details/${service?._id}`} className='w-full'>
             <button className='w-full bg-primary-500 text-white py-2 px-4 rounded-md text-center hover:bg-primary-600 transition-colors'>
               See Details
             </button>

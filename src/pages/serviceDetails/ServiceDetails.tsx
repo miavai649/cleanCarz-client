@@ -1,9 +1,16 @@
 import { useState } from 'react'
 import { DatePicker, Button, DatePickerProps } from 'antd'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+import { useGetServiceQuery } from '../../redux/features/service/serviceApi'
 
 const ServiceDetails = () => {
   const [selectedSlot, setSelectedSlot] = useState(null)
+
+  const { serviceId } = useParams()
+  console.log('🚀 ~ ServiceDetails ~ serviceId:', serviceId)
+
+  const { data: serviceData } = useGetServiceQuery(serviceId)
+  console.log('🚀 ~ ServiceDetails ~ serviceData:', serviceData)
 
   const timeSlots = [
     '09:00 AM',
@@ -44,8 +51,7 @@ const ServiceDetails = () => {
         {/* Service Image */}
         <div className='relative mb-6 rounded-lg overflow-hidden'>
           <img
-            src='https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
-            alt='Premium Car Wash'
+            src={serviceData?.data?.image}
             className='w-full h-64 object-cover'
           />
           <div className='absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-50'></div>
@@ -53,13 +59,15 @@ const ServiceDetails = () => {
 
         {/* Service Details */}
         <h1 className='text-3xl font-bold text-primary-600'>
-          Premium Car Wash
+          {serviceData?.data?.name}
         </h1>
-        <p className='mt-2 text-lg font-semibold text-gray-800'>$25.00</p>
-        <p className='mt-1 text-base text-gray-600'>Duration: 30 Minutes</p>
-        <p className='mt-4 text-gray-600'>
-          A comprehensive car wash that includes interior and exterior cleaning.
+        <p className='mt-2 text-lg font-semibold text-gray-800'>
+          ৳{serviceData?.data?.price}
         </p>
+        <p className='mt-1 text-base text-gray-600'>
+          Duration: {serviceData?.data?.duration} Minutes
+        </p>
+        <p className='mt-4 text-gray-600'>{serviceData?.data?.description}</p>
 
         {/* Date Picker */}
         <div className='mt-6'>
