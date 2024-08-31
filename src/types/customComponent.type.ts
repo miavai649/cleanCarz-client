@@ -18,3 +18,10 @@ export type CInputProps = {
   placeholder?: string
   disabled?: boolean
 }
+
+export type CSelectProps = {
+  label: string
+  name: string
+  disabled?: boolean
+  options: { value: string; label: string; disabled?: boolean }[] | undefined
+}
