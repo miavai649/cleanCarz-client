@@ -1,15 +1,12 @@
 import { Button, Modal, Space, Table, TableColumnsType } from 'antd'
 import { Link } from 'react-router-dom'
-import AddServiceModal from '../../components/modal/AddServiceModal'
 import UpdateServiceModal from '../../components/modal/UpdateServiceModal'
 import { ExclamationCircleFilled } from '@ant-design/icons'
-import {
-  useDeleteServiceMutation,
-  useGetAllServiceQuery
-} from '../../redux/features/service/serviceApi'
+import { useDeleteServiceMutation } from '../../redux/features/service/serviceApi'
 import { TResponse, TService } from '../../types'
 import { toast } from 'sonner'
 import { useGetAllSlotQuery } from '../../redux/features/slot/slotApi'
+import CreateSlotModal from '../../components/modal/CreateSlotModal'
 
 export type TTableData = Pick<TService, 'name' | 'price' | 'duration'>
 
@@ -47,14 +44,6 @@ const SlotManagement = () => {
       }
     })
   }
-
-  const { data: servicesData } = useGetAllServiceQuery({})
-
-  const serviceOptions = servicesData?.data?.map((service) => ({
-    value: service._id,
-    label: service.name
-  }))
-  console.log('🚀 ~ serviceOptions ~ serviceOptions:', serviceOptions)
 
   const { data: slotsData, isLoading: slotLoading } = useGetAllSlotQuery({})
   console.log('🚀 ~ SlotManagement ~ slotsData:', slotsData)
@@ -121,7 +110,7 @@ const SlotManagement = () => {
     <div>
       <div className='flex justify-between w-full'>
         <h1 className='text-2xl mb-6 font-bold'>Service Management</h1>
-        <AddServiceModal />
+        <CreateSlotModal />
       </div>
       <Table
         loading={slotLoading}

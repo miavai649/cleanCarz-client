@@ -9,7 +9,7 @@ const CTimePicker = ({ name, label }: CInputProps) => {
         name={name}
         render={({ field, fieldState: { error } }) => (
           <Form.Item label={label}>
-            <TimePicker
+            <TimePicker.RangePicker
               {...field}
               size='large'
               style={{ width: '100%' }}

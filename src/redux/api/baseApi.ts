@@ -9,7 +9,7 @@ import {
 } from '@reduxjs/toolkit/query/react'
 import { RootState } from '../store'
 import { toast } from 'sonner'
-import { setUser } from '../features/auth/authSlice'
+import { logout, setUser } from '../features/auth/authSlice'
 
 // main base query
 const baseQuery = fetchBaseQuery({
@@ -65,7 +65,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 
       result = await baseQuery(args, api, extraOptions)
     } else {
-      // api.dispatch(logout())
+      api.dispatch(logout())
     }
   }
   return result
