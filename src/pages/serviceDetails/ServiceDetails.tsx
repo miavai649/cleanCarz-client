@@ -7,10 +7,8 @@ const ServiceDetails = () => {
   const [selectedSlot, setSelectedSlot] = useState(null)
 
   const { serviceId } = useParams()
-  console.log('🚀 ~ ServiceDetails ~ serviceId:', serviceId)
 
   const { data: serviceData } = useGetServiceQuery(serviceId)
-  console.log('🚀 ~ ServiceDetails ~ serviceData:', serviceData)
 
   const timeSlots = [
     '09:00 AM',

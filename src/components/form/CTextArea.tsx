@@ -1,4 +1,4 @@
-import { Form, Input } from 'antd'
+import { Form } from 'antd'
 import { Controller } from 'react-hook-form'
 import { CInputProps } from '../../types'
 import { MdErrorOutline } from 'react-icons/md'
