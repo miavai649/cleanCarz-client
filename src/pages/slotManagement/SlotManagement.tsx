@@ -1,6 +1,15 @@
-import { Button, Dropdown, Table, TableColumnsType, Tag } from 'antd'
+import {
+  Button,
+  Dropdown,
+  Modal,
+  Space,
+  Table,
+  TableColumnsType,
+  Tag
+} from 'antd'
 
 import {
+  useDeleteSlotMutation,
   useGetAllSlotQuery,
   useUpdateSlotStatusMutation
 } from '../../redux/features/slot/slotApi'
@@ -8,6 +17,7 @@ import CreateSlotModal from '../../components/modal/CreateSlotModal'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { TResponse, TSlot } from '../../types'
+import { ExclamationCircleFilled } from '@ant-design/icons'
 
 export type TTableData = {
   key: string
@@ -31,12 +41,16 @@ const items = [
 
 const SlotManagement = () => {
   const [slotId, setSlotId] = useState('')
+  const { confirm } = Modal
 
   // getting all slot data
   const { data: slotsData, isLoading: slotLoading } = useGetAllSlotQuery({})
 
   // updating slot status
   const [updateSlotStatus] = useUpdateSlotStatusMutation()
+
+  // delete slot
+  const [deleteSlot] = useDeleteSlotMutation()
 
   // table data
   const tableData = slotsData?.data?.map(
@@ -75,6 +89,37 @@ const SlotManagement = () => {
   const menuProps = {
     items,
     onClick: handleMenuClick
+  }
+
+  // handle delete function
+  const handleDeleteSlot = async (slotId: string) => {
+    try {
+      const res = (await deleteSlot(slotId)) as TResponse<TSlot>
+      if (res.error) {
+        toast.error('Failed to delete service', { duration: 2000 })
+      } else {
+        toast.success('Service deleted successfully', { duration: 2000 })
+      }
+    } catch (error) {
+      toast.error('Something went wrong')
+    }
+  }
+
+  // showing a alert message
+  const showPromiseConfirm = (slotId: string) => {
+    confirm({
+      title: 'Are you sure you want to delete this slot?',
+      icon: <ExclamationCircleFilled />,
+      content:
+        'This action cannot be undone. The slot will be permanently removed.',
+      okText: 'Delete',
+      okType: 'danger',
+      cancelText: 'Cancel',
+      onOk: () => handleDeleteSlot(slotId),
+      onCancel() {
+        toast.info('Deletion canceled', { duration: 2000 })
+      }
+    })
   }
 
   // Table columns
@@ -130,9 +175,17 @@ const SlotManagement = () => {
       align: 'center',
       render: (item) => {
         return (
-          <Dropdown key={item?.key} menu={menuProps} trigger={['click']}>
-            <Button onClick={() => setSlotId(item?.key)}>Update</Button>
-          </Dropdown>
+          <Space key={item.key}>
+            <Dropdown key={item?.key} menu={menuProps} trigger={['click']}>
+              <Button onClick={() => setSlotId(item?.key)}>Update</Button>
+            </Dropdown>
+            <Button
+              key={`${item.key}-delete`}
+              danger
+              onClick={() => showPromiseConfirm(item?.key)}>
+              Delete
+            </Button>
+          </Space>
         )
       },
       width: '1%'

@@ -32,6 +32,13 @@ const slotApi = baseApi.injectEndpoints({
         body: args.data
       }),
       invalidatesTags: ['slot']
+    }),
+    deleteSlot: builder.mutation({
+      query: (args) => ({
+        url: `/slots/${args}`,
+        method: 'DELETE'
+      }),
+      invalidatesTags: ['slot']
     })
   })
 })
@@ -39,5 +46,6 @@ const slotApi = baseApi.injectEndpoints({
 export const {
   useAddSlotMutation,
   useGetAllSlotQuery,
-  useUpdateSlotStatusMutation
+  useUpdateSlotStatusMutation,
+  useDeleteSlotMutation
 } = slotApi
