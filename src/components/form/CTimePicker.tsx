@@ -1,15 +1,20 @@
-import { DatePicker, Form } from 'antd'
+import { Form, TimePicker } from 'antd'
 import { Controller } from 'react-hook-form'
 import { CInputProps } from '../../types'
 
-const CDatePicker = ({ name, label }: CInputProps) => {
+const CTimePicker = ({ name, label }: CInputProps) => {
   return (
     <div style={{ marginBottom: '20px' }}>
       <Controller
         name={name}
         render={({ field, fieldState: { error } }) => (
           <Form.Item label={label}>
-            <DatePicker {...field} size='large' style={{ width: '100%' }} />
+            <TimePicker
+              {...field}
+              size='large'
+              style={{ width: '100%' }}
+              format={'HH:mm'}
+            />
             {error && <small style={{ color: 'red' }}>{error.message}</small>}
           </Form.Item>
         )}
@@ -18,4 +23,4 @@ const CDatePicker = ({ name, label }: CInputProps) => {
   )
 }
 
-export default CDatePicker
+export default CTimePicker
