@@ -1,5 +1,7 @@
+import { TService } from './service.type'
+
 export type TSlot = {
-  service: string
+  service: TService
   date: string
   startTime: string
   endTime: string

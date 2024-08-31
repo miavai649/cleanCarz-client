@@ -15,8 +15,10 @@ export type TTableData = Pick<TService, 'name' | 'price' | 'duration'>
 const ServiceManagement = () => {
   const { confirm } = Modal
 
+  // delete service rtk query mutation
   const [deleteService] = useDeleteServiceMutation()
 
+  // handle delete function
   const handleDeleteService = async (serviceId: string) => {
     try {
       const res = (await deleteService(serviceId)) as TResponse<TService>
@@ -31,6 +33,7 @@ const ServiceManagement = () => {
     }
   }
 
+  // showing a alert message
   const showPromiseConfirm = (serviceId: string) => {
     confirm({
       title: 'Are you sure you want to delete this service?',
@@ -47,6 +50,7 @@ const ServiceManagement = () => {
     })
   }
 
+  // get all service data rtk query
   const { data: servicesData, isLoading } = useGetAllServiceQuery({})
 
   const tableData = servicesData?.data?.map(
@@ -63,7 +67,6 @@ const ServiceManagement = () => {
     {
       key: 'name',
       title: 'Service Name',
-      align: 'center',
       dataIndex: 'name'
     },
     {
