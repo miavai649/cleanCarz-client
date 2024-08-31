@@ -9,6 +9,7 @@ import {
 } from '../../redux/features/service/serviceApi'
 import { TResponse, TService } from '../../types'
 import { toast } from 'sonner'
+import CTextArea from '../form/CTextArea'
 
 type TUpdateServiceModalProps = {
   serviceId: string
@@ -18,7 +19,7 @@ const UpdateServiceModal = ({ serviceId }: TUpdateServiceModalProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [loading, setLoading] = useState(false)
 
-  const { data: serviceData } = useGetServiceQuery(serviceId)
+  const { data: serviceData, isLoading } = useGetServiceQuery(serviceId)
 
   const [updateService] = useUpdateServiceMutation()
 
@@ -107,16 +108,26 @@ const UpdateServiceModal = ({ serviceId }: TUpdateServiceModalProps) => {
       <Button onClick={showModal}>Update</Button>
       <Modal open={isModalOpen} onCancel={handleCancel} footer={null}>
         <CForm onSubmit={onSubmit} defaultValues={defaultValue}>
-          <CInput name='name' type='text' label='Name' />
-          <CInput name='description' type='text' label='Description' />
-          <CInput name='price' type='text' label='Price' />
-          <CInput name='duration' type='text' label='Duration' />
+          <CInput disabled={isLoading} name='name' type='text' label='Name' />
+          <CTextArea
+            disabled={isLoading}
+            name='description'
+            label='Description'
+          />
+          <CInput disabled={isLoading} name='price' type='text' label='Price' />
+          <CInput
+            disabled={isLoading}
+            name='duration'
+            type='text'
+            label='Duration'
+          />
           <Controller
             name='image'
             render={({ field: { onChange, value, ...field } }) => (
               <Form.Item label={'Image'}>
                 <Input
                   type='file'
+                  disabled={isLoading}
                   value={value?.filename}
                   size='large'
                   {...field}

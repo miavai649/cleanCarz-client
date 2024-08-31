@@ -9,6 +9,7 @@ import addServiceSchema from '../../schemas/service.schema'
 import { useAddServiceMutation } from '../../redux/features/service/serviceApi'
 import { toast } from 'sonner'
 import { TResponse, TService } from '../../types'
+import CTextArea from '../form/CTextArea'
 
 const AddServiceModal = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -117,7 +118,7 @@ const AddServiceModal = () => {
       <Modal open={isModalOpen} onCancel={handleCancel} footer={null}>
         <CForm onSubmit={onSubmit} resolver={zodResolver(addServiceSchema)}>
           <CInput name='name' type='text' label='Name' />
-          <CInput name='description' type='text' label='Description' />
+          <CTextArea name='description' label='Description' />
           <CInput name='price' type='number' label='Price' />
           <CInput name='duration' type='number' label='Duration' />
           <Controller

@@ -2,19 +2,21 @@ import { Form, Input } from 'antd'
 import { Controller } from 'react-hook-form'
 import { CInputProps } from '../../types'
 import { MdErrorOutline } from 'react-icons/md'
+import TextArea from 'antd/es/input/TextArea'
 
-const CInput = ({ type, name, label, placeholder, disabled }: CInputProps) => {
+const CTextArea = ({ name, label, placeholder, disabled }: CInputProps) => {
   return (
     <div>
       <Controller
         name={name}
         render={({ field, fieldState: { error } }) => (
           <Form.Item label={label}>
-            <Input
+            <TextArea
               {...field}
-              type={type}
               placeholder={placeholder}
               id={name}
+              showCount
+              maxLength={100}
               disabled={disabled}
               size='large'
             />
@@ -31,4 +33,4 @@ const CInput = ({ type, name, label, placeholder, disabled }: CInputProps) => {
   )
 }
 
-export default CInput
+export default CTextArea

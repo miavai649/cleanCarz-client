@@ -12,8 +12,9 @@ export type CFormProps = {
 } & CFormConfig
 
 export type CInputProps = {
-  type: string
+  type?: string
   name: string
   label?: string
   placeholder?: string
+  disabled?: boolean
 }
