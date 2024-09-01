@@ -17,8 +17,24 @@ const ProtectedRoute = ({ children, role }: TProtectedRouteProps) => {
   const token = useAppSelector(useCurrentToken)
   const location = useLocation()
 
+  const adminPaths = [
+    '/admin',
+    '/admin/slot-management',
+    '/admin/users',
+    '/admin/booking'
+  ]
+  const userPaths = ['/user', '/user/my-booking']
+
   if (!token) {
-    return <Navigate to='/login' state={{ from: location }} replace />
+    const isDashboardPath =
+      adminPaths.includes(location.pathname) ||
+      userPaths.includes(location.pathname)
+
+    if (!isDashboardPath) {
+      return <Navigate to='/login' state={{ from: location }} replace />
+    } else {
+      return <Navigate to='/login' replace />
+    }
   }
 
   const user = verifyToken(token) as TUserDecoded
