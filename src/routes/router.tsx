@@ -61,7 +61,7 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: 'service-management',
+        path: '',
         element: <ServiceManagement />,
         index: true
       },
@@ -88,8 +88,9 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        index: true,
-        element: <MyProfile />
+        path: '',
+        element: <MyProfile />,
+        index: true
       },
       {
         path: 'my-booking',

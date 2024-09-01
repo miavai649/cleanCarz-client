@@ -25,11 +25,7 @@ const Dashboard = () => {
       sidebarItems = [
         {
           key: 'Service Management',
-          label: (
-            <NavLink to={'/admin/service-management'}>
-              Service Management
-            </NavLink>
-          )
+          label: <NavLink to={'/admin'}>Service Management</NavLink>
         },
         {
           key: 'Slot Management',

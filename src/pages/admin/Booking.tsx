@@ -1,4 +1,4 @@
-import { Table, TableColumnsType, Tag } from 'antd'
+import { Table, TableColumnsType } from 'antd'
 import { useGetAllBookingQuery } from '../../redux/features/booking/bookingApi'
 import formateVehicleType from '../../utils/formateVehicleType'
 
