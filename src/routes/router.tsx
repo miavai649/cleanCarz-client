@@ -13,6 +13,8 @@ import SlotManagement from '../pages/admin/SlotManagement'
 import ProtectedRoute from '../components/layouts/ProtectedRoute'
 import Users from '../pages/admin/Users'
 import Booking from '../pages/admin/Booking'
+import MyProfile from '../pages/user/MyProfile'
+import MyBooking from '../pages/user/MyBooking'
 
 const router = createBrowserRouter([
   {
@@ -52,7 +54,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/admin',
-    element: <DashboardLayout />,
+    element: (
+      <ProtectedRoute role='admin'>
+        <DashboardLayout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         path: 'service-management',
@@ -70,6 +76,24 @@ const router = createBrowserRouter([
       {
         path: 'booking',
         element: <Booking />
+      }
+    ]
+  },
+  {
+    path: '/user',
+    element: (
+      <ProtectedRoute role='user'>
+        <DashboardLayout />
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        index: true,
+        element: <MyProfile />
+      },
+      {
+        path: 'my-booking',
+        element: <MyBooking />
       }
     ]
   },

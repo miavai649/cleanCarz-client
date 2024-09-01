@@ -1,35 +1,74 @@
 import { Layout, Menu } from 'antd'
 import { NavLink, Outlet } from 'react-router-dom'
+import { useAppSelector } from '../../redux/hook'
+import {
+  TUserDecoded,
+  useCurrentToken
+} from '../../redux/features/auth/authSlice'
+import { verifyToken } from '../../utils/verifyToken'
 
 const { Sider, Content } = Layout
 
 const Dashboard = () => {
-  const sidebarItems = [
-    {
-      key: 'Service Management',
-      label: (
-        <NavLink to={'/admin/service-management'}>Service Management</NavLink>
-      )
-    },
-    {
-      key: 'Slot Management',
-      label: <NavLink to={'/admin/slot-management'}>Slot Management</NavLink>
-    },
-    {
-      key: 'User Management',
-      label: 'User Management',
-      children: [
+  const token = useAppSelector(useCurrentToken)
+
+  let user
+
+  if (token) {
+    user = verifyToken(token)
+  }
+
+  let sidebarItems
+
+  switch ((user as TUserDecoded)!.userRole) {
+    case 'admin':
+      sidebarItems = [
         {
-          key: 'Users',
-          label: <NavLink to={'/admin/users'}>Users</NavLink>
+          key: 'Service Management',
+          label: (
+            <NavLink to={'/admin/service-management'}>
+              Service Management
+            </NavLink>
+          )
         },
         {
-          key: 'Booking',
-          label: <NavLink to={'/admin/booking'}>Booking</NavLink>
+          key: 'Slot Management',
+          label: (
+            <NavLink to={'/admin/slot-management'}>Slot Management</NavLink>
+          )
+        },
+        {
+          key: 'User Management',
+          label: 'User Management',
+          children: [
+            {
+              key: 'Users',
+              label: <NavLink to={'/admin/users'}>Users</NavLink>
+            },
+            {
+              key: 'Bookings',
+              label: <NavLink to={'/admin/booking'}>Booking</NavLink>
+            }
+          ]
         }
       ]
-    }
-  ]
+      break
+    case 'user':
+      sidebarItems = [
+        {
+          key: 'My Profile',
+          label: <NavLink to={'/user'}>My Profile</NavLink>
+        },
+        {
+          key: 'My Bookings',
+          label: <NavLink to={'/user/my-booking'}>My Bookings</NavLink>
+        }
+      ]
+      break
+
+    default:
+      break
+  }
 
   return (
     <Layout style={{ minHeight: '100vh' }}>

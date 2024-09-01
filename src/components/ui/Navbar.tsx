@@ -6,7 +6,12 @@ import { CiLogin } from 'react-icons/ci'
 import { largeScreenLinks, mobileNavbarLinks } from '../../constants/navbar'
 import { FaCircleUser } from 'react-icons/fa6'
 import { useAppDispatch, useAppSelector } from '../../redux/hook'
-import { logout, useCurrentToken } from '../../redux/features/auth/authSlice'
+import {
+  logout,
+  TUserDecoded,
+  useCurrentToken
+} from '../../redux/features/auth/authSlice'
+import { verifyToken } from '../../utils/verifyToken'
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -33,11 +38,17 @@ const Navbar = () => {
 
   const token = useAppSelector(useCurrentToken)
 
+  let user
+
+  if (token) {
+    user = verifyToken(token) as TUserDecoded
+  }
+
   const items: MenuProps['items'] = [
     {
       key: '2',
       label: (
-        <Link to={'/admin/service-management'}>
+        <Link to={`/${user?.userRole}`}>
           <button>Dashboard</button>
         </Link>
       )
