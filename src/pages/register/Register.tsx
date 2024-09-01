@@ -9,7 +9,7 @@ import { Button } from 'antd'
 import { TResponse } from '../../types'
 import { TUser } from '../../types/user.type'
 import { toast } from 'sonner'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Register = () => {
   const [registerUser, { isLoading }] = useRegisterMutation()
@@ -100,14 +100,15 @@ const Register = () => {
           </div>
         </div>
 
-        <div className='text-grey-dark mt-6'>
-          Already have an account?{' '}
-          <a
-            className='no-underline border-b border-blue text-blue'
-            href='/login'>
-            Log in
-          </a>
-          .
+        <div className='text-center mt-6'>
+          <p className='text-gray-600'>
+            Already have an account?{' '}
+            <Link
+              to={'/login'}
+              className='text-secondary-800 font-bold hover:underline'>
+              Log in
+            </Link>
+          </p>
         </div>
       </div>
     </div>

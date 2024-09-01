@@ -10,7 +10,7 @@ import { TUser } from '../../types/user.type'
 import { verifyToken } from '../../utils/verifyToken'
 import { setUser, TUserDecoded } from '../../redux/features/auth/authSlice'
 import { useAppDispatch } from '../../redux/hook'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation, Link } from 'react-router-dom'
 
 const Login = () => {
   const [login, { isLoading }] = useLoginMutation()
@@ -78,14 +78,15 @@ const Login = () => {
           </CForm>
         </div>
 
-        <div className='text-grey-dark mt-6'>
-          Don't have an account yet?{' '}
-          <a
-            className='no-underline border-b border-blue text-blue'
-            href='../register/'>
-            Register
-          </a>
-          .
+        <div className='text-center mt-6'>
+          <p className='text-gray-600'>
+            Don't have an account yet?{' '}
+            <Link
+              to={'/register'}
+              className='text-secondary-800 font-bold hover:underline'>
+              Register
+            </Link>
+          </p>
         </div>
       </div>
     </div>

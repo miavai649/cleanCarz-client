@@ -1,8 +1,48 @@
-import { Button, Input, Form, DatePicker, TimePicker } from 'antd'
-import moment from 'moment'
-import 'antd/dist/reset.css' // Make sure to import Ant Design styles
-
+import { useParams } from 'react-router-dom'
+import { useGetServiceQuery } from '../../redux/features/service/serviceApi'
+import { useGetSingleSlotQuery } from '../../redux/features/slot/slotApi'
+import SelectedServiceAndSlot from './SelectedServiceAndSlot'
+import CForm from '../../components/form/CForm'
+import CInput from '../../components/form/CInput'
+import { Button, Form, TimePicker } from 'antd'
+import { FieldValues, SubmitHandler } from 'react-hook-form'
+import dayjs from 'dayjs'
+import Spinner from '../../components/spinner/Spinner'
+import { useAppSelector } from '../../redux/hook'
+import { useCurrentUser } from '../../redux/features/auth/authSlice'
 const BookingPage = () => {
+  const { serviceId, slotId } = useParams()
+
+  const user = useAppSelector(useCurrentUser)
+
+  const defaultValue = {
+    userName: '',
+    userEmail: user?.userEmail
+  }
+
+  const { data: serviceData, isLoading: serviceLoading } =
+    useGetServiceQuery(serviceId)
+
+  const { data: slotData, isLoading: slotLoading } =
+    useGetSingleSlotQuery(slotId)
+
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    console.log(data)
+  }
+
+  const vehicleTypeOptions = [
+    'car',
+    'truck',
+    'SUV',
+    'van',
+    'motorcycle',
+    'bus',
+    'electricVehicle',
+    'hybridVehicle',
+    'bicycle',
+    'tractor'
+  ]
+
   return (
     <div className='container mx-auto py-12'>
       {/* Header */}
@@ -16,98 +56,70 @@ const BookingPage = () => {
         </p>
         <div className='mt-2 w-24 mx-auto h-1 bg-primary-800 rounded'></div>
       </div>
-
-      <div className=' p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12'>
-        <div className='flex flex-col md:flex-row md:space-x-6'>
-          {/* Left Side: Display Selected Service and Time Slot */}
-          <div className='flex-1 bg-white rounded-lg shadow-xl p-4 md:p-6'>
-            <h2 className='text-xl font-semibold text-primary-600 mb-4'>
-              Selected Service
-            </h2>
-            <div className='border border-gray-200 rounded-lg p-4'>
-              <img
-                src='https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
-                alt='Service'
-                className='w-full h-40 object-cover rounded-md'
-              />
-              <h3 className='text-lg font-semibold text-gray-800 mt-2'>
-                Premium Car Wash
-              </h3>
-              <p className='text-gray-600 mt-2'>
-                A comprehensive car wash that includes interior and exterior
-                cleaning.
-              </p>
-              <p className='text-primary-600 font-bold mt-2'>$25.00</p>
-              <p className='text-gray-500 mt-1'>Duration: 30 Minutes</p>
-            </div>
-
-            <div className='mt-6'>
-              <h2 className='text-xl font-semibold text-primary-600 mb-4'>
-                Selected Time Slot
+      {serviceLoading || slotLoading ? (
+        <Spinner styling='h-screen' />
+      ) : (
+        <div className=' p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12'>
+          <div className='flex flex-col md:flex-row md:space-x-6'>
+            {/*  selected service and time slot */}
+            <SelectedServiceAndSlot
+              serviceData={serviceData?.data!}
+              slotData={slotData?.data!}
+            />
+            {/* horizontal divider for small screens */}
+            <div className='md:hidden my-6 border-t border-gray-300'></div>
+            {/* vertical divider for larger screens */}
+            <div className='hidden md:block w-px bg-gray-300 mx-6'></div>
+            {/*  booking form */}
+            <div className='flex-1 bg-white rounded-lg shadow-lg p-4 md:p-6'>
+              <h2 className='text-2xl text-center font-semibold text-primary-600 mb-4'>
+                Customer Details
               </h2>
-              <div className='border border-gray-200 rounded-lg p-4'>
-                <p className='text-gray-600'>
-                  Date: {moment().format('MMMM D, YYYY')}
-                </p>
-                <p className='text-gray-600'>Time: 10:00 AM - 11:00 AM</p>
-              </div>
-            </div>
-          </div>
-          {/* Responsive Divider */}
-          <div className='md:hidden my-6 border-t border-gray-300'></div>{' '}
-          {/* Horizontal divider on small screens */}
-          <div className='hidden md:block w-px bg-gray-300 mx-6'></div>{' '}
-          {/* Vertical divider on medium and larger screens */}
-          {/* Right Side: Booking Form */}
-          <div className='flex-1 bg-white rounded-lg shadow-lg p-4 md:p-6'>
-            <h2 className='text-2xl text-center font-semibold text-primary-600 mb-4'>
-              Customer Details
-            </h2>
-            <Form layout='vertical'>
-              <Form.Item name='name' label='Name' initialValue='John Doe'>
-                <Input placeholder='Enter your name' />
-              </Form.Item>
+              <CForm onSubmit={onSubmit} defaultValues={defaultValue}>
+                <CInput name='userName' type='text' label='Full Name' />
+                <CInput name='userEmail' type='email' label='Email' />
 
-              <Form.Item
-                name='email'
-                label='Email'
-                initialValue='john.doe@example.com'>
-                <Input type='email' placeholder='Enter your email' />
-              </Form.Item>
+                <Form.Item label='Selected Time'>
+                  <TimePicker.RangePicker
+                    size='large'
+                    style={{
+                      width: '100%',
+                      fontWeight: 'bold', // Increase the font weight
+                      backgroundColor: '#e0e0e0', // Lighten the background even more
+                      color: '#000', // Ensure text color is black
+                      opacity: 1 // Set opacity to full (1)
+                    }}
+                    disabled
+                    format={'HH:mm'}
+                    defaultValue={[
+                      dayjs(slotData?.data?.startTime, 'HH:mm'),
+                      dayjs(slotData?.data?.endTime, 'HH:mm')
+                    ]}
+                  />
+                </Form.Item>
 
-              <Form.Item name='date' label='Date' initialValue={moment()}>
-                <DatePicker
-                  format='YYYY-MM-DD'
-                  style={{ width: '100%' }}
-                  defaultValue={moment()}
-                />
-              </Form.Item>
-
-              <Form.Item
-                name='time'
-                label='Time Slot'
-                initialValue={[
-                  moment('10:00', 'HH:mm'),
-                  moment('11:00', 'HH:mm')
-                ]}>
-                <TimePicker.RangePicker
-                  format='HH:mm'
-                  style={{ width: '100%' }}
-                />
-              </Form.Item>
-
-              <Form.Item>
                 <Button
-                  type='primary'
                   htmlType='submit'
-                  className='w-full bg-primary-500 hover:bg-primary-600'>
-                  Pay Now
+                  style={{
+                    width: '100%',
+                    textAlign: 'center',
+                    fontSize: '18px',
+                    fontWeight: 600,
+                    padding: '20px 0px',
+                    borderRadius: '0.375rem',
+                    backgroundColor: '#418FC8',
+                    color: 'white',
+                    outline: 'none',
+                    marginTop: '0.25rem',
+                    marginBottom: '0.25rem'
+                  }}>
+                  Register
                 </Button>
-              </Form.Item>
-            </Form>
+              </CForm>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }

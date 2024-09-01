@@ -10,6 +10,8 @@ import moment from 'moment'
 import { useAddSlotMutation } from '../../redux/features/slot/slotApi'
 import { TResponse, TService } from '../../types'
 import { toast } from 'sonner'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { createSlotSchema } from '../../schemas/slot.schema'
 
 const CreateSlotModal = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -36,6 +38,7 @@ const CreateSlotModal = () => {
   }
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    console.log(data)
     const slotData = {
       ...data,
       date: moment(new Date(data.date)).format('YYYY-MM-DD'),
@@ -67,7 +70,7 @@ const CreateSlotModal = () => {
       <Button
         onClick={showModal}
         style={{
-          backgroundColor: '#56A7DC', // Primary color
+          backgroundColor: '#56A7DC',
           color: '#ffffff',
           border: 'none',
           borderRadius: '8px',
@@ -88,7 +91,7 @@ const CreateSlotModal = () => {
         Create Slot
       </Button>
       <Modal open={isModalOpen} onCancel={handleCancel} footer={null}>
-        <CForm onSubmit={onSubmit}>
+        <CForm onSubmit={onSubmit} resolver={zodResolver(createSlotSchema)}>
           <CSelect
             name='service'
             label='Select Slot'

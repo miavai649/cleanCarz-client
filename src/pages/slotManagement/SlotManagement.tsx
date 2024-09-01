@@ -209,7 +209,6 @@ const SlotManagement = () => {
         columns={columns}
         dataSource={tableData}
         rowKey='_id'
-        pagination={false}
       />
     </div>
   )

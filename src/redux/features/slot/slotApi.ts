@@ -26,6 +26,20 @@ const slotApi = baseApi.injectEndpoints({
       },
       providesTags: ['slot']
     }),
+    getSingleSlot: builder.query({
+      query: (args) => {
+        return {
+          url: `/slots/${args}`,
+          method: 'GET'
+        }
+      },
+      transformResponse: (response: TResponseRedux<TSlot>) => {
+        return {
+          data: response.data
+        }
+      },
+      providesTags: ['slot']
+    }),
     addSlot: builder.mutation({
       query: (data) => ({
         url: '/services/slots',
@@ -56,5 +70,6 @@ export const {
   useAddSlotMutation,
   useGetAllSlotQuery,
   useUpdateSlotStatusMutation,
-  useDeleteSlotMutation
+  useDeleteSlotMutation,
+  useGetSingleSlotQuery
 } = slotApi
