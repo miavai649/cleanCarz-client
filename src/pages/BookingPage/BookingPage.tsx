@@ -4,12 +4,13 @@ import { useGetSingleSlotQuery } from '../../redux/features/slot/slotApi'
 import SelectedServiceAndSlot from './SelectedServiceAndSlot'
 import CForm from '../../components/form/CForm'
 import CInput from '../../components/form/CInput'
-import { Button, Form, TimePicker } from 'antd'
+import { Button, Col, Form, Row, TimePicker } from 'antd'
 import { FieldValues, SubmitHandler } from 'react-hook-form'
 import dayjs from 'dayjs'
 import Spinner from '../../components/spinner/Spinner'
 import { useAppSelector } from '../../redux/hook'
 import { useCurrentUser } from '../../redux/features/auth/authSlice'
+import CSelect from '../../components/form/CSelect'
 const BookingPage = () => {
   const { serviceId, slotId } = useParams()
 
@@ -27,20 +28,59 @@ const BookingPage = () => {
     useGetSingleSlotQuery(slotId)
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data)
+    const bookingData = {
+      serviceId: serviceId,
+      slotId: slotId,
+      vehicleType: data?.vehicleType,
+      vehicleBrand: data?.vehicleBrand,
+      vehicleModel: data?.vehicleModel,
+      manufacturingYear: Number(data?.manufacturingYear),
+      registrationPlate: data?.registrationPlate
+    }
+    console.log(bookingData)
   }
 
   const vehicleTypeOptions = [
-    'car',
-    'truck',
-    'SUV',
-    'van',
-    'motorcycle',
-    'bus',
-    'electricVehicle',
-    'hybridVehicle',
-    'bicycle',
-    'tractor'
+    {
+      value: 'car',
+      label: 'Car'
+    },
+    {
+      value: 'truck',
+      label: 'Truck'
+    },
+    {
+      value: 'SUV',
+      label: 'SUV'
+    },
+    {
+      value: 'van',
+      label: 'Van'
+    },
+    {
+      value: 'motorcycle',
+      label: 'Motorcycle'
+    },
+    {
+      value: 'bus',
+      label: 'Bus'
+    },
+    {
+      value: 'electricVehicle',
+      label: 'Electric Vehicle'
+    },
+    {
+      value: 'hybridVehicle',
+      label: 'Hybrid Vehicle'
+    },
+    {
+      value: 'bicycle',
+      label: 'Bicycle'
+    },
+    {
+      value: 'tractor',
+      label: 'Tractor'
+    }
   ]
 
   return (
@@ -78,25 +118,65 @@ const BookingPage = () => {
               <CForm onSubmit={onSubmit} defaultValues={defaultValue}>
                 <CInput name='userName' type='text' label='Full Name' />
                 <CInput name='userEmail' type='email' label='Email' />
+                <Row gutter={8}>
+                  <Col span={24} md={{ span: 12 }}>
+                    <CSelect
+                      name='vehicleType'
+                      label='Vehicle Type'
+                      options={vehicleTypeOptions}
+                    />
+                  </Col>
 
-                <Form.Item label='Selected Time'>
-                  <TimePicker.RangePicker
-                    size='large'
-                    style={{
-                      width: '100%',
-                      fontWeight: 'bold', // Increase the font weight
-                      backgroundColor: '#e0e0e0', // Lighten the background even more
-                      color: '#000', // Ensure text color is black
-                      opacity: 1 // Set opacity to full (1)
-                    }}
-                    disabled
-                    format={'HH:mm'}
-                    defaultValue={[
-                      dayjs(slotData?.data?.startTime, 'HH:mm'),
-                      dayjs(slotData?.data?.endTime, 'HH:mm')
-                    ]}
-                  />
-                </Form.Item>
+                  <Col span={24} md={{ span: 12 }}>
+                    <CInput
+                      name='vehicleBrand'
+                      type='text'
+                      label='Vehicle Brand'
+                    />
+                  </Col>
+                  <Col span={24} md={{ span: 12 }}>
+                    <CInput
+                      name='vehicleModel'
+                      type='text'
+                      label='Vehicle Model'
+                    />
+                  </Col>
+                  <Col span={24} md={{ span: 12 }}>
+                    <CInput
+                      name='manufacturingYear'
+                      type='number'
+                      label='Manufacturing Year'
+                    />
+                  </Col>
+                  <Col span={24} md={{ span: 12 }}>
+                    <CInput
+                      name='registrationPlate'
+                      type='text'
+                      label='Registration Plate'
+                    />
+                  </Col>
+
+                  <Col span={24} md={{ span: 12 }}>
+                    <Form.Item label='Selected Time'>
+                      <TimePicker.RangePicker
+                        size='large'
+                        style={{
+                          width: '100%',
+                          fontWeight: 'bold',
+                          backgroundColor: '#e0e0e0',
+                          color: '#000',
+                          opacity: 1
+                        }}
+                        disabled
+                        format={'HH:mm'}
+                        defaultValue={[
+                          dayjs(slotData?.data?.startTime, 'HH:mm'),
+                          dayjs(slotData?.data?.endTime, 'HH:mm')
+                        ]}
+                      />
+                    </Form.Item>
+                  </Col>
+                </Row>
 
                 <Button
                   htmlType='submit'
@@ -113,7 +193,7 @@ const BookingPage = () => {
                     marginTop: '0.25rem',
                     marginBottom: '0.25rem'
                   }}>
-                  Register
+                  Pay Now
                 </Button>
               </CForm>
             </div>

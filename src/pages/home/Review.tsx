@@ -7,18 +7,18 @@ import { MdErrorOutline } from 'react-icons/md'
 const Review = () => {
   const [hover, setHover] = useState(0)
   const [isLogin, setIsLogin] = useState(false)
-  const [reviews, setReviews] = useState([
-    {
-      id: 1,
-      rating: 5,
-      feedback: 'Excellent service, very satisfied!'
-    },
-    {
-      id: 2,
-      rating: 4,
-      feedback: 'Great service, but the waiting time was a bit long.'
-    }
-  ])
+  // const [reviews, setReviews] = useState([
+  //   {
+  //     id: 1,
+  //     rating: 5,
+  //     feedback: 'Excellent service, very satisfied!'
+  //   },
+  //   {
+  //     id: 2,
+  //     rating: 4,
+  //     feedback: 'Great service, but the waiting time was a bit long.'
+  //   }
+  // ])
 
   const {
     register,
@@ -117,7 +117,7 @@ const Review = () => {
           </button>
         </form>
 
-        <div className='mt-8'>
+        {/* <div className='mt-8'>
           <h3 className='text-2xl font-bold mb-4 text-gray-900 animate-slide-in'>
             Overall Rating:{' '}
             {reviews.reduce((acc, review) => acc + review.rating, 0) /
@@ -141,7 +141,7 @@ const Review = () => {
               <p className='text-gray-700'>{review.feedback}</p>
             </div>
           ))}
-        </div>
+        </div> */}
 
         <button className='text-primary-500 hover:underline mt-4 animate-slide-in transform hover:scale-105'>
           See All Reviews

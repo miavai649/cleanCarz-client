@@ -9,8 +9,7 @@ import {
 } from '@reduxjs/toolkit/query/react'
 import { RootState } from '../store'
 import { toast } from 'sonner'
-import { logout, setUser, useCurrentUser } from '../features/auth/authSlice'
-import { useAppSelector } from '../hook'
+import { logout, setUser } from '../features/auth/authSlice'
 
 // main base query
 const baseQuery = fetchBaseQuery({
