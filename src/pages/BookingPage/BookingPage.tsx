@@ -11,10 +11,15 @@ import Spinner from '../../components/spinner/Spinner'
 import { useAppSelector } from '../../redux/hook'
 import { useCurrentUser } from '../../redux/features/auth/authSlice'
 import CSelect from '../../components/form/CSelect'
+import { useCreateBookingMutation } from '../../redux/features/booking/bookingApi'
+import { TResponse } from '../../types'
+import { toast } from 'sonner'
 const BookingPage = () => {
   const { serviceId, slotId } = useParams()
 
   const user = useAppSelector(useCurrentUser)
+  // create booking rtk query
+  const [createBooking] = useCreateBookingMutation()
 
   const defaultValue = {
     userName: '',
@@ -27,7 +32,7 @@ const BookingPage = () => {
   const { data: slotData, isLoading: slotLoading } =
     useGetSingleSlotQuery(slotId)
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const bookingData = {
       serviceId: serviceId,
       slotId: slotId,
@@ -37,7 +42,22 @@ const BookingPage = () => {
       manufacturingYear: Number(data?.manufacturingYear),
       registrationPlate: data?.registrationPlate
     }
-    console.log(bookingData)
+
+    try {
+      const res = (await createBooking(bookingData)) as TResponse<any>
+
+      if (res.error) {
+        toast.error('Failed to create Booking', {
+          duration: 2000
+        })
+      } else {
+        toast.success('Booking created successfully', {
+          duration: 2000
+        })
+      }
+    } catch (error) {
+      toast.error('Something went wrong')
+    }
   }
 
   const vehicleTypeOptions = [

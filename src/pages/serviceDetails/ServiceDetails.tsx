@@ -9,7 +9,6 @@ import { MdErrorOutline } from 'react-icons/md'
 
 const ServiceDetails = () => {
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null)
-  console.log('🚀 ~ ServiceDetails ~ selectedSlot:', selectedSlot)
   const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs())
   const formattedDate = selectedDate.format('YYYY-MM-DD')
 
