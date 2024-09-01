@@ -33,6 +33,20 @@ const authApi = baseApi.injectEndpoints({
       },
       providesTags: ['user']
     }),
+    getMe: builder.query({
+      query: () => {
+        return {
+          url: '/auth/me',
+          method: 'GET'
+        }
+      },
+      transformResponse: (response: TResponseRedux<TUser>) => {
+        return {
+          data: response.data
+        }
+      },
+      providesTags: ['user']
+    }),
     updateRole: builder.mutation({
       query: (args) => ({
         url: `/auth/user/${args?.id}`,
@@ -48,5 +62,6 @@ export const {
   useRegisterMutation,
   useLoginMutation,
   useGetAllUsersQuery,
-  useUpdateRoleMutation
+  useUpdateRoleMutation,
+  useGetMeQuery
 } = authApi
