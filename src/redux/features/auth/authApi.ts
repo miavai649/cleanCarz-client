@@ -22,11 +22,11 @@ const authApi = baseApi.injectEndpoints({
     getAllUsers: builder.query({
       query: () => {
         return {
-          url: '/slots/availability',
+          url: '/auth/users',
           method: 'GET'
         }
       },
-      transformResponse: (response: TResponseRedux<TUser>) => {
+      transformResponse: (response: TResponseRedux<TUser[]>) => {
         return {
           data: response.data
         }
@@ -36,4 +36,5 @@ const authApi = baseApi.injectEndpoints({
   })
 })
 
-export const { useRegisterMutation, useLoginMutation } = authApi
+export const { useRegisterMutation, useLoginMutation, useGetAllUsersQuery } =
+  authApi
