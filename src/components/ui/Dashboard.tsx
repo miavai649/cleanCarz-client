@@ -17,7 +17,17 @@ const Dashboard = () => {
     },
     {
       key: 'User Management',
-      label: <NavLink to={'/admin/user-management'}>User Management</NavLink>
+      label: 'User Management',
+      children: [
+        {
+          key: 'Users',
+          label: <NavLink to={'/admin/users'}>Users</NavLink>
+        },
+        {
+          key: 'Booking',
+          label: <NavLink to={'/admin/booking'}>Booking</NavLink>
+        }
+      ]
     }
   ]
 
