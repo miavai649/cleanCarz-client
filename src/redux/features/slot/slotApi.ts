@@ -4,10 +4,19 @@ import { baseApi } from '../../api/baseApi'
 const slotApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllSlot: builder.query({
-      query: () => {
+      query: (args) => {
+        const params = new URLSearchParams()
+
+        if (args.date) {
+          params.append('date', args.date)
+        }
+        if (args.serviceId) {
+          params.append('serviceId', args.serviceId)
+        }
         return {
           url: '/slots/availability',
-          method: 'GET'
+          method: 'GET',
+          params: params
         }
       },
       transformResponse: (response: TResponseRedux<TSlot[]>) => {

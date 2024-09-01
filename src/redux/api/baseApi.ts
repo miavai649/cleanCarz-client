@@ -9,7 +9,8 @@ import {
 } from '@reduxjs/toolkit/query/react'
 import { RootState } from '../store'
 import { toast } from 'sonner'
-import { logout, setUser } from '../features/auth/authSlice'
+import { logout, setUser, useCurrentUser } from '../features/auth/authSlice'
+import { useAppSelector } from '../hook'
 
 // main base query
 const baseQuery = fetchBaseQuery({
@@ -49,8 +50,10 @@ const baseQueryWithRefreshToken: BaseQueryFn<
     toast.error(errorMessage)
   }
 
+  const user = (api.getState() as RootState).auth.user
+
   // checking if the user is authenticated or not
-  if (result?.error?.status === 401) {
+  if (result?.error?.status === 401 && user !== null) {
     // sending refresh token
     const res = await fetch('http://localhost:5000/api/auth/refresh-token', {
       method: 'POST',
@@ -59,8 +62,6 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 
     const data = await res.json()
     if (data?.data?.accessToken) {
-      const user = (api.getState() as RootState).auth.user
-
       api.dispatch(setUser({ user, token: data?.data?.accessToken }))
 
       result = await baseQuery(args, api, extraOptions)

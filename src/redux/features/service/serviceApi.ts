@@ -5,16 +5,22 @@ const serviceApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllService: builder.query({
       query: (args) => {
-        let query = `/services?`
+        const params = new URLSearchParams()
 
-        if (args.searchTerm)
-          query += `search=${encodeURIComponent(args.searchTerm)}&`
-        if (args.duration) query += `duration=${args.duration}&`
-        if (args.sortOrder) query += `sort=${args.sortOrder}&`
+        if (args.searchTerm) {
+          params.append('search', args.searchTerm)
+        }
+        if (args.duration) {
+          params.append('duration', args.duration)
+        }
+        if (args.sortOrder) {
+          params.append('sort', args.sortOrder)
+        }
 
         return {
-          url: query,
-          method: 'GET'
+          url: '/services',
+          method: 'GET',
+          params: params
         }
       },
       transformResponse: (response: TResponseRedux<TService[]>) => {

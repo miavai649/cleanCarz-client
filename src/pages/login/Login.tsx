@@ -7,33 +7,33 @@ import { Button } from 'antd'
 import { toast } from 'sonner'
 import { TResponse } from '../../types'
 import { TUser } from '../../types/user.type'
-import { verifyToken } from '../../utils/decodeToken'
+import { verifyToken } from '../../utils/verifyToken'
 import { setUser, TUserDecoded } from '../../redux/features/auth/authSlice'
 import { useAppDispatch } from '../../redux/hook'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 const Login = () => {
   const [login, { isLoading }] = useLoginMutation()
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const location = useLocation()
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       const res = (await login(data).unwrap()) as TResponse<TUser>
-      console.log('🚀 ~ constonSubmit:SubmitHandler<FieldValues>= ~ res:', res)
 
       if (res.error) {
         toast.error(res?.error?.data?.message, { duration: 2000 })
       } else {
-        const user = (await verifyToken(res.token as string)) as TUserDecoded
+        const user = verifyToken(res.token as string) as TUserDecoded
         dispatch(setUser({ user: user, token: res.token }))
         toast.success('User logged in successfully', { duration: 2000 })
-        navigate('/')
+
+        const from = location.state?.from?.pathname || '/'
+        navigate(from, { replace: true })
       }
     } catch (error) {
-      toast.error('Something went problem', {
-        duration: 2000
-      })
+      toast.error('Something went wrong', { duration: 2000 })
     }
   }
 
@@ -50,7 +50,7 @@ const Login = () => {
         </p>
         <div className='mt-2 w-24 mx-auto h-1 bg-primary-800 rounded'></div>
       </div>
-      {/* log in form */}
+      {/* Log in form */}
       <div className='container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2'>
         <div className='bg-white px-6 py-8 rounded shadow-xl text-black w-full'>
           <h1 className='mb-8 text-3xl text-center'>Sign in</h1>
@@ -73,7 +73,7 @@ const Login = () => {
                 marginTop: '0.25rem',
                 marginBottom: '0.25rem'
               }}>
-              Register
+              Sign in
             </Button>
           </CForm>
         </div>

@@ -176,7 +176,11 @@ const SlotManagement = () => {
       render: (item) => {
         return (
           <Space key={item.key}>
-            <Dropdown key={item?.key} menu={menuProps} trigger={['click']}>
+            <Dropdown
+              key={item?.key}
+              menu={menuProps}
+              disabled={item.status === 'booked'}
+              trigger={['click']}>
               <Button onClick={() => setSlotId(item?.key)}>Update</Button>
             </Dropdown>
             <Button

@@ -12,6 +12,7 @@ import DashboardLayout from '../components/layouts/DashboardLayout'
 import ServiceManagement from '../pages/serviceManagement/ServiceManagement'
 import SlotManagement from '../pages/slotManagement/SlotManagement'
 import UserManagement from '../pages/userManagement/UserManagement'
+import ProtectedRoute from '../components/layouts/ProtectedRoute'
 
 const router = createBrowserRouter([
   {
@@ -31,8 +32,12 @@ const router = createBrowserRouter([
         element: <ServiceDetails />
       },
       {
-        path: '/booking-page',
-        element: <BookingPage />
+        path: '/booking-page/:serviceId/:slotId',
+        element: (
+          <ProtectedRoute role='user'>
+            <BookingPage />
+          </ProtectedRoute>
+        )
       },
 
       {
