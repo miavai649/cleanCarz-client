@@ -1,6 +1,10 @@
 import { Button, Space, Table, TableColumnsType, Tag } from 'antd'
-import { useGetAllUsersQuery } from '../../redux/features/auth/authApi'
-import { TUser } from '../../types'
+import {
+  useGetAllUsersQuery,
+  useUpdateRoleMutation
+} from '../../redux/features/auth/authApi'
+import { TResponse, TUser } from '../../types'
+import { toast } from 'sonner'
 
 export type TTableData = Pick<
   TUser,
@@ -9,7 +13,28 @@ export type TTableData = Pick<
 
 const Users = () => {
   const { data: usersData, isLoading } = useGetAllUsersQuery({})
-  console.log('🚀 ~ Users ~ usersData:', usersData)
+
+  const [updateRole] = useUpdateRoleMutation()
+
+  const handleUpdateRole = async (role: string, id: string) => {
+    const updateData = {
+      id,
+      data: {
+        role
+      }
+    }
+
+    try {
+      const res = (await updateRole(updateData)) as TResponse<TUser>
+      if (res?.error) {
+        toast.error('Failed to update user role')
+      } else {
+        toast.success(`User role updated to ${role}`)
+      }
+    } catch (error) {
+      toast.error('Something went wrong')
+    }
+  }
 
   // table data
   const tableData = usersData?.data?.map(
@@ -78,11 +103,15 @@ const Users = () => {
         return (
           <Space key={item.key}>
             {item?.role === 'admin' ? (
-              <Button style={{ backgroundColor: 'blue', color: 'white' }}>
+              <Button
+                onClick={() => handleUpdateRole('user', item.key)}
+                style={{ backgroundColor: 'blue', color: 'white' }}>
                 Make User
               </Button>
             ) : (
-              <Button style={{ backgroundColor: 'green', color: 'white' }}>
+              <Button
+                onClick={() => handleUpdateRole('admin', item.key)}
+                style={{ backgroundColor: 'green', color: 'white' }}>
                 Make Admin
               </Button>
             )}
