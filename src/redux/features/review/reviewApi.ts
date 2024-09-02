@@ -1,4 +1,4 @@
-import { TResponseRedux, TSlot } from '../../../types'
+import { TResponseRedux } from '../../../types'
 import { baseApi } from '../../api/baseApi'
 
 const reviewApi = baseApi.injectEndpoints({
