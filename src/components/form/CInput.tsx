@@ -3,7 +3,14 @@ import { Controller } from 'react-hook-form'
 import { CInputProps } from '../../types'
 import { MdErrorOutline } from 'react-icons/md'
 
-const CInput = ({ type, name, label, placeholder, disabled }: CInputProps) => {
+const CInput = ({
+  type,
+  name,
+  label,
+  placeholder,
+  disabled,
+  style
+}: CInputProps) => {
   return (
     <div>
       <Controller
@@ -13,6 +20,7 @@ const CInput = ({ type, name, label, placeholder, disabled }: CInputProps) => {
             <Input
               {...field}
               type={type}
+              style={style}
               placeholder={placeholder}
               id={name}
               disabled={disabled}

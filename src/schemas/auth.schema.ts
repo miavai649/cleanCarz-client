@@ -15,3 +15,17 @@ export const signUpSchema = z.object({
     .string({ required_error: 'Please provide your address' })
     .min(1, 'Address is required')
 })
+
+export const updateUserSchema = z.object({
+  image: z.string().optional(),
+  name: z
+    .string({ required_error: 'Please provide your name' })
+    .min(1, 'Name is required'),
+  email: z
+    .string({ required_error: 'Please provide your email' })
+    .email('Invalid email address'),
+  phone: z.string({ required_error: 'Please provide your phone number' }),
+  address: z
+    .string({ required_error: 'Please provide your address' })
+    .min(1, 'Address is required')
+})

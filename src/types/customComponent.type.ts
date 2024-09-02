@@ -17,6 +17,7 @@ export type CInputProps = {
   label?: string
   placeholder?: string
   disabled?: boolean
+  style?: any
 }
 
 export type CSelectProps = {
