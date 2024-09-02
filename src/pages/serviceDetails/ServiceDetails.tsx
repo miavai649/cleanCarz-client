@@ -6,6 +6,7 @@ import dayjs, { Dayjs } from 'dayjs'
 import { useGetAllSlotQuery } from '../../redux/features/slot/slotApi'
 import Spinner from '../../components/spinner/Spinner'
 import { MdErrorOutline } from 'react-icons/md'
+import moment from 'moment'
 
 const ServiceDetails = () => {
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null)
@@ -77,6 +78,9 @@ const ServiceDetails = () => {
                 fullscreen={false}
                 value={selectedDate}
                 onSelect={handleDateChange}
+                disabledDate={(currentDate) =>
+                  currentDate && currentDate < moment().startOf('day')
+                }
                 className='bg-white p-4 rounded-lg shadow-sm'
                 headerRender={({ value, onChange }) => (
                   <div className='flex justify-between items-center px-4 py-2'>
