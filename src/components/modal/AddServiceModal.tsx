@@ -118,7 +118,7 @@ const AddServiceModal = () => {
       <Modal open={isModalOpen} onCancel={handleCancel} footer={null}>
         <CForm onSubmit={onSubmit} resolver={zodResolver(addServiceSchema)}>
           <CInput name='name' type='text' label='Name' />
-          <CTextArea name='description' label='Description' />
+          <CTextArea name='description' label='Description' maxLength={100} />
           <CInput name='price' type='number' label='Price' />
           <CInput name='duration' type='number' label='Duration' />
           <Controller

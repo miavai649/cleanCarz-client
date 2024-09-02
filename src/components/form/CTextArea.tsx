@@ -4,7 +4,13 @@ import { CInputProps } from '../../types'
 import { MdErrorOutline } from 'react-icons/md'
 import TextArea from 'antd/es/input/TextArea'
 
-const CTextArea = ({ name, label, placeholder, disabled }: CInputProps) => {
+const CTextArea = ({
+  name,
+  label,
+  placeholder,
+  disabled,
+  maxLength
+}: CInputProps) => {
   return (
     <div>
       <Controller
@@ -16,7 +22,7 @@ const CTextArea = ({ name, label, placeholder, disabled }: CInputProps) => {
               placeholder={placeholder}
               id={name}
               showCount
-              maxLength={100}
+              maxLength={maxLength}
               disabled={disabled}
               size='large'
             />

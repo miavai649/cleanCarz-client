@@ -18,6 +18,7 @@ export type CInputProps = {
   placeholder?: string
   disabled?: boolean
   style?: any
+  maxLength?: number
 }
 
 export type CSelectProps = {

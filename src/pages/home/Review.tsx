@@ -3,22 +3,21 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { FaStar } from 'react-icons/fa'
 import { IoMdCheckmarkCircleOutline } from 'react-icons/io'
 import { MdErrorOutline } from 'react-icons/md'
+import { useAppSelector } from '../../redux/hook'
+import { useCurrentToken } from '../../redux/features/auth/authSlice'
+import { Link } from 'react-router-dom'
+import {
+  useAddReviewMutation,
+  useGetAllReviewsQuery
+} from '../../redux/features/review/reviewApi'
+import { toast } from 'sonner'
+import { TResponse } from '../../types'
+import Spinner from '../../components/spinner/Spinner'
+import moment from 'moment'
+import { Avatar } from 'antd'
 
 const Review = () => {
   const [hover, setHover] = useState(0)
-  const [isLogin, setIsLogin] = useState(false)
-  // const [reviews, setReviews] = useState([
-  //   {
-  //     id: 1,
-  //     rating: 5,
-  //     feedback: 'Excellent service, very satisfied!'
-  //   },
-  //   {
-  //     id: 2,
-  //     rating: 4,
-  //     feedback: 'Great service, but the waiting time was a bit long.'
-  //   }
-  // ])
 
   const {
     register,
@@ -31,15 +30,50 @@ const Review = () => {
 
   const rating = watch('rating')
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log('Form Data:', data)
+  const { data: reviewData, isLoading: reviewLoading } = useGetAllReviewsQuery(
+    {}
+  )
+  console.log('🚀 ~ Review ~ reviewData:', reviewData)
+
+  const [addReview] = useAddReviewMutation()
+
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const toastId = toast.loading('Submitting your review...')
+
+    const reviewData = {
+      ...data
+    }
+
+    try {
+      const res = (await addReview(reviewData)) as TResponse<any>
+
+      if (res.error) {
+        toast.error('Failed to create service', {
+          duration: 2000,
+          id: toastId
+        })
+      } else {
+        toast.success('Service created successfully', {
+          duration: 2000,
+          id: toastId
+        })
+      }
+    } catch (error) {
+      toast.error('Something went wrong', {
+        duration: 2000,
+        id: toastId
+      })
+    }
+
     reset()
   }
+
+  const token = useAppSelector(useCurrentToken)
 
   return (
     <div className='relative container mx-auto py-12'>
       {/* Black Overlay */}
-      {!isLogin && (
+      {!token && (
         <div className='absolute inset-0 z-10 bg-black rounded-md bg-opacity-70 flex items-center justify-center'>
           <div className='bg-white p-8 rounded-lg shadow-lg text-center animate-fade-in'>
             <IoMdCheckmarkCircleOutline
@@ -52,13 +86,11 @@ const Review = () => {
             <p className='mb-4 text-gray-700 animate-slide-in'>
               You need to be logged in to leave a review.
             </p>
-            <button
-              className='bg-primary-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-700 transition-all animate-button-hover transform hover:scale-105'
-              onClick={() => {
-                setIsLogin(true)
-              }}>
-              Log In
-            </button>
+            <Link to={'/login'}>
+              <button className='bg-primary-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-700 transition-all animate-button-hover transform hover:scale-105'>
+                Log In
+              </button>
+            </Link>
           </div>
         </div>
       )}
@@ -100,13 +132,13 @@ const Review = () => {
           <textarea
             className='w-full p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 mb-4 animate-fade-in'
             placeholder='Share your experience...'
-            {...register('feedback', { required: true })}
+            {...register('review', { required: true })}
             rows={5}></textarea>
 
-          {errors.feedback && (
+          {errors.review && (
             <p className='text-red-500 mb-4 flex items-center animate-slide-in'>
               <MdErrorOutline size={20} className='mr-2' />
-              Feedback is required.
+              Review is required.
             </p>
           )}
 
@@ -117,31 +149,81 @@ const Review = () => {
           </button>
         </form>
 
-        {/* <div className='mt-8'>
+        <div className='mt-8'>
           <h3 className='text-2xl font-bold mb-4 text-gray-900 animate-slide-in'>
             Overall Rating:{' '}
-            {reviews.reduce((acc, review) => acc + review.rating, 0) /
-              reviews.length || 0}
+            {(
+              reviewData?.data?.reduce(
+                (acc: any, review: any) => acc + review.rating,
+                0
+              ) / reviewData?.data?.length || 0
+            ).toFixed(2)}
             /5
           </h3>
 
-          {reviews.slice(0, 2).map((review) => (
-            <div
-              key={review.id}
-              className='bg-gray-100 p-4 rounded-lg mb-4 shadow-md animate-slide-up'>
-              <div className='flex items-center mb-2'>
-                {[...Array(review.rating)].map((_, index) => (
-                  <FaStar
-                    key={index}
-                    size={20}
-                    className='text-secondary-500 animate-star'
-                  />
-                ))}
-              </div>
-              <p className='text-gray-700'>{review.feedback}</p>
+          {reviewLoading ? (
+            <Spinner styling='h-screen' />
+          ) : (
+            <div>
+              {reviewData?.data?.slice(0, 2).map((review: any) => (
+                <div
+                  key={review._id}
+                  className='bg-white p-6 rounded-lg mb-6 shadow-lg animate-slide-up space-y-4'>
+                  <div className='flex items-center space-x-4'>
+                    <div className='flex-shrink-0'>
+                      <Avatar
+                        size={50}
+                        className='cursor-pointer'
+                        src={review.user?.image}
+                        alt={review.user?.name}
+                        style={{
+                          backgroundColor: '#418FC8',
+                          verticalAlign: 'middle'
+                        }}>
+                        {!review.user?.image && (
+                          <span
+                            style={{
+                              fontSize: '1rem',
+                              fontWeight: 'bold',
+                              color: 'white'
+                            }}>
+                            {review.user?.name?.charAt(0)}
+                          </span>
+                        )}
+                      </Avatar>
+                    </div>
+
+                    <div className='flex flex-col'>
+                      <h4 className='text-lg font-semibold text-gray-900'>
+                        {review.user.name}
+                      </h4>
+                      <p className='text-sm text-gray-500'>
+                        Submitted on{' '}
+                        {moment(review.createdAt).format(
+                          'MMMM Do, YYYY [at] h:mm A'
+                        )}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className='flex items-center'>
+                    {[...Array(review.rating)].map((_, index) => (
+                      <FaStar
+                        key={index}
+                        size={20}
+                        className='text-secondary-500 animate-star'
+                      />
+                    ))}
+                  </div>
+
+                  <p className='text-gray-700 leading-relaxed'>
+                    {review.review}
+                  </p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div> */}
+          )}
+        </div>
 
         <button className='text-primary-500 hover:underline mt-4 animate-slide-in transform hover:scale-105'>
           See All Reviews

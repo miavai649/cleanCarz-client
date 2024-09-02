@@ -66,7 +66,7 @@ const Navbar = () => {
   ]
 
   const { data: myBookingData, isLoading: myBookingLoading } =
-    useGetMyBookingQuery({}, { skip: !token })
+    useGetMyBookingQuery(undefined, { skip: !token })
 
   const findNextBooking = () => {
     const today = moment()
@@ -126,33 +126,33 @@ const Navbar = () => {
         {/* left side of the navbar */}
         <div className='flex items-center space-x-4'>
           {/* countdown for the next slot */}
-          {myBookingLoading ? (
-            <Spin />
-          ) : (
-            nextBooking && (
-              <div
-                className='bg-white text-black p-1 rounded flex items-center justify-center'
-                style={{
-                  backgroundColor: '#ffffff',
-                  minWidth: '120px'
-                }}>
-                <Countdown
-                  value={moment(
-                    `${nextBooking.slot.date} ${nextBooking.slot.startTime}`
-                  )
-                    .toDate()
-                    .getTime()}
-                  format='HH:mm:ss'
-                  className='text-xs font-semibold'
-                />
-              </div>
-            )
-          )}
+          <>
+            {myBookingLoading ? (
+              <Spin />
+            ) : (
+              nextBooking &&
+              token && (
+                <div className='bg-white text-black p-2 rounded-lg flex flex-col justify-center items-center'>
+                  <span className='font-semibold text-sm mr-2'>Next Slot:</span>
+                  <Countdown
+                    title={null}
+                    value={moment(
+                      `${nextBooking.slot.date} ${nextBooking.slot.startTime}`
+                    )
+                      .toDate()
+                      .getTime()}
+                    format='HH:mm:ss'
+                    className='text-xs '
+                  />
+                </div>
+              )
+            )}
+          </>
 
           {token && (
             <Dropdown trigger={['click']} menu={{ items }} placement='bottom'>
               <Avatar
-                size={30}
+                size={40}
                 className='cursor-pointer'
                 src={userData?.data?.image}
                 alt={userData?.data?.name}

@@ -113,6 +113,7 @@ const UpdateServiceModal = ({ serviceId }: TUpdateServiceModalProps) => {
             disabled={isLoading}
             name='description'
             label='Description'
+            maxLength={100}
           />
           <CInput disabled={isLoading} name='price' type='text' label='Price' />
           <CInput
