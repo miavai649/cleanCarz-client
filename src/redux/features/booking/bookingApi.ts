@@ -18,6 +18,20 @@ const bookingApi = baseApi.injectEndpoints({
       },
       providesTags: ['booking']
     }),
+    getMyBooking: builder.query({
+      query: () => {
+        return {
+          url: '/my-bookings',
+          method: 'GET'
+        }
+      },
+      transformResponse: (response: TResponseRedux<TBooking[]>) => {
+        return {
+          data: response.data
+        }
+      },
+      providesTags: ['booking']
+    }),
     createBooking: builder.mutation({
       query: (data) => ({
         url: '/bookings',
@@ -29,4 +43,8 @@ const bookingApi = baseApi.injectEndpoints({
   })
 })
 
-export const { useCreateBookingMutation, useGetAllBookingQuery } = bookingApi
+export const {
+  useCreateBookingMutation,
+  useGetAllBookingQuery,
+  useGetMyBookingQuery
+} = bookingApi

@@ -1,10 +1,9 @@
-import { Button, Dropdown, MenuProps } from 'antd'
+import { Avatar, Button, Dropdown, MenuProps, Spin, Statistic } from 'antd'
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { logo } from '../../assets/logo'
 import { CiLogin } from 'react-icons/ci'
 import { largeScreenLinks, mobileNavbarLinks } from '../../constants/navbar'
-import { FaCircleUser } from 'react-icons/fa6'
 import { useAppDispatch, useAppSelector } from '../../redux/hook'
 import {
   logout,
@@ -12,6 +11,11 @@ import {
   useCurrentToken
 } from '../../redux/features/auth/authSlice'
 import { verifyToken } from '../../utils/verifyToken'
+import { useGetMeQuery } from '../../redux/features/auth/authApi'
+import { useGetMyBookingQuery } from '../../redux/features/booking/bookingApi'
+import moment from 'moment'
+
+const { Countdown } = Statistic
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -44,6 +48,8 @@ const Navbar = () => {
     user = verifyToken(token) as TUserDecoded
   }
 
+  const { data: userData } = useGetMeQuery({})
+
   const items: MenuProps['items'] = [
     {
       key: '2',
@@ -59,13 +65,33 @@ const Navbar = () => {
     }
   ]
 
+  const { data: myBookingData, isLoading: myBookingLoading } =
+    useGetMyBookingQuery({})
+
+  const findNextBooking = () => {
+    const today = moment()
+    const upcomingBookings = myBookingData?.data?.filter((booking) =>
+      moment(booking.slot.date).isSameOrAfter(today)
+    )
+    if (upcomingBookings && upcomingBookings.length > 0) {
+      return upcomingBookings.sort((a, b) =>
+        moment(`${a.slot.date} ${a.slot.startTime}`).diff(
+          moment(`${b.slot.date} ${b.slot.startTime}`)
+        )
+      )[0]
+    }
+    return null
+  }
+
+  const nextBooking = findNextBooking()
+
   return (
     <nav
       className={`sticky top-0 z-50 transition-all duration-500 ease-in-out ${
         isScrolled ? 'bg-black/80 shadow-md h-16' : 'bg-black h-24'
       }`}>
       <div className='container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-full'>
-        {/* Logo */}
+        {/* log */}
         <div className='flex-shrink-0'>
           <a href='/'>
             <img
@@ -78,7 +104,7 @@ const Navbar = () => {
           </a>
         </div>
 
-        {/* Navigation links */}
+        {/* navigation links for large screen */}
         <div className='hidden lg:flex space-x-8'>
           {largeScreenLinks.map((item, idx) => (
             <Link
@@ -97,54 +123,81 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* Avatar and login buttons */}
+        {/* left side of the navbar */}
         <div className='flex items-center space-x-4'>
+          {/* countdown for the next slot */}
+          {myBookingLoading ? (
+            <Spin />
+          ) : (
+            nextBooking && (
+              <div
+                className='bg-white text-black p-1 rounded flex items-center justify-center'
+                style={{
+                  backgroundColor: '#ffffff',
+                  minWidth: '120px'
+                }}>
+                <Countdown
+                  value={moment(
+                    `${nextBooking.slot.date} ${nextBooking.slot.startTime}`
+                  )
+                    .toDate()
+                    .getTime()}
+                  format='HH:mm:ss'
+                  className='text-xs font-semibold'
+                />
+              </div>
+            )
+          )}
+
           {token && (
             <Dropdown trigger={['click']} menu={{ items }} placement='bottom'>
-              <Button
+              <Avatar
+                size={30}
+                className='cursor-pointer'
+                src={userData?.data?.image}
+                alt={userData?.data?.name}
                 style={{
-                  border: 'none',
-                  padding: '6px',
-                  borderRadius: '50%',
-                  backgroundColor: '#56A7DC',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
-                  transition: 'background-color 0.3s ease'
-                }}
-                type='text'>
-                <FaCircleUser className='text-white text-xl' />
-              </Button>
+                  backgroundColor: '#418FC8',
+                  verticalAlign: 'middle'
+                }}>
+                {!userData?.data?.image && (
+                  <span
+                    style={{
+                      fontSize: '0.875rem',
+                      fontWeight: 'bold'
+                    }}>
+                    {userData?.data?.name?.charAt(0)}
+                  </span>
+                )}
+              </Avatar>
             </Dropdown>
           )}
 
-          <div>
-            {!token && (
-              <Link to='/login' className='text-white'>
-                <Button
-                  type='primary'
-                  icon={
-                    <CiLogin
-                      style={{
-                        fontWeight: 800,
-                        fontSize: '18px',
-                        color: '#ffffff'
-                      }}
-                    />
-                  }
-                  className={` ${
-                    location.pathname === '/login'
-                      ? 'bg-primary-600'
-                      : 'bg-secondary-500'
-                  } text-white font-medium rounded-md px-4 py-2 flex items-center`}>
-                  Login
-                </Button>
-              </Link>
-            )}
-          </div>
+          {/* navbar log in btn */}
+          {!token && (
+            <Link to='/login' className='text-white'>
+              <Button
+                type='primary'
+                icon={
+                  <CiLogin
+                    style={{
+                      fontWeight: 800,
+                      fontSize: '16px',
+                      color: '#ffffff'
+                    }}
+                  />
+                }
+                className={` ${
+                  location.pathname === '/login'
+                    ? 'bg-primary-600'
+                    : 'bg-secondary-500'
+                } text-white font-medium rounded-md px-3 py-1`}>
+                Login
+              </Button>
+            </Link>
+          )}
 
-          {/* Mobile Menu Button */}
+          {/* side bar trigger for mobile device */}
           <button
             type='button'
             className='inline-flex items-center justify-center p-2 rounded-md text-primary-500 lg:hidden focus:outline-none'
@@ -168,7 +221,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Sidebar for Mobile */}
+      {/* navigation links for mobile device */}
       <div
         className={`fixed inset-0 z-40 bg-gray-800 bg-opacity-75 transition-opacity duration-300 ${
           isSidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'

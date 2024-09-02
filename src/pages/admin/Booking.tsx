@@ -21,7 +21,7 @@ const Booking = () => {
   const { data: bookingData, isLoading: bookingLoading } =
     useGetAllBookingQuery({})
 
-  // Transform booking data for the table
+  // table data
   const tableData = bookingData?.data?.map((booking) => ({
     key: booking._id,
     customerName: booking.customer.name,
@@ -37,7 +37,7 @@ const Booking = () => {
     registrationPlate: booking.registrationPlate
   }))
 
-  // Table columns
+  // table columns
   const columns: TableColumnsType<TTableData> = [
     {
       key: 'customerName',
