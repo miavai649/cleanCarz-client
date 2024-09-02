@@ -225,9 +225,11 @@ const Review = () => {
           )}
         </div>
 
-        <button className='text-primary-500 hover:underline mt-4 animate-slide-in transform hover:scale-105'>
-          See All Reviews
-        </button>
+        <Link to={'/reviews'}>
+          <button className='text-primary-500 hover:underline mt-4 animate-slide-in transform hover:scale-105'>
+            See All Reviews
+          </button>
+        </Link>
       </div>
     </div>
   )

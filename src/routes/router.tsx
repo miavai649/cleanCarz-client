@@ -15,6 +15,7 @@ import Users from '../pages/admin/Users'
 import Booking from '../pages/admin/Booking'
 import MyProfile from '../pages/user/MyProfile'
 import MyBooking from '../pages/user/MyBooking'
+import AllReviews from '../pages/home/AllReviews'
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <Home />
+      },
+      {
+        path: '/reviews',
+        element: <AllReviews />
       },
       {
         path: '/services',
