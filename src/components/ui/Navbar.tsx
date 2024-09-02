@@ -48,7 +48,7 @@ const Navbar = () => {
     user = verifyToken(token) as TUserDecoded
   }
 
-  const { data: userData } = useGetMeQuery({})
+  const { data: userData } = useGetMeQuery({}, { skip: !token })
 
   const items: MenuProps['items'] = [
     {
@@ -66,7 +66,7 @@ const Navbar = () => {
   ]
 
   const { data: myBookingData, isLoading: myBookingLoading } =
-    useGetMyBookingQuery({})
+    useGetMyBookingQuery({}, { skip: !token })
 
   const findNextBooking = () => {
     const today = moment()

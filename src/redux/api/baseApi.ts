@@ -13,7 +13,7 @@ import { logout, setUser } from '../features/auth/authSlice'
 
 // main base query
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'http://localhost:5000/api',
+  baseUrl: 'https://lvl-2-assignment-3-nine.vercel.app/api',
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
     // preparing headers for request
@@ -54,10 +54,13 @@ const baseQueryWithRefreshToken: BaseQueryFn<
   // checking if the user is authenticated or not
   if (result?.error?.status === 401 && user !== null) {
     // sending refresh token
-    const res = await fetch('http://localhost:5000/api/auth/refresh-token', {
-      method: 'POST',
-      credentials: 'include'
-    })
+    const res = await fetch(
+      'https://lvl-2-assignment-3-nine.vercel.app/api/auth/refresh-token',
+      {
+        method: 'POST',
+        credentials: 'include'
+      }
+    )
 
     const data = await res.json()
     if (data?.data?.accessToken) {
