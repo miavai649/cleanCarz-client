@@ -4,6 +4,7 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import FeatureCard from '../../components/cards/FeatureCard'
 import { useGetAllServiceQuery } from '../../redux/features/service/serviceApi'
+import Spinner from '../../components/spinner/Spinner'
 
 const FeaturedServices = () => {
   const { data: serviceData, isLoading } = useGetAllServiceQuery({})
@@ -22,36 +23,42 @@ const FeaturedServices = () => {
         <div className='mt-2 w-16 md:w-24 mx-auto h-1 bg-primary-800 rounded'></div>
       </div>
 
-      {/* Services Slider */}
-      <Swiper
-        slidesPerView={1}
-        spaceBetween={10}
-        loop={true}
-        pagination={{ clickable: true }}
-        navigation={true}
-        breakpoints={{
-          640: {
-            slidesPerView: 1,
-            spaceBetween: 20
-          },
-          768: {
-            slidesPerView: 2,
-            spaceBetween: 30
-          },
-          1024: {
-            slidesPerView: 3,
-            spaceBetween: 40
-          }
-        }}
-        autoplay={true}
-        modules={[Pagination, Autoplay, Navigation]}
-        className='!pb-10'>
-        {serviceData?.data?.slice(0, 6)?.map((service) => (
-          <SwiperSlide key={service._id}>
-            <FeatureCard service={service} />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      {/* feature services */}
+      <div>
+        {isLoading ? (
+          <Spinner styling='h-screen' />
+        ) : (
+          <Swiper
+            slidesPerView={1}
+            spaceBetween={10}
+            loop={true}
+            pagination={{ clickable: true }}
+            navigation={true}
+            breakpoints={{
+              640: {
+                slidesPerView: 1,
+                spaceBetween: 20
+              },
+              768: {
+                slidesPerView: 2,
+                spaceBetween: 30
+              },
+              1024: {
+                slidesPerView: 3,
+                spaceBetween: 40
+              }
+            }}
+            autoplay={true}
+            modules={[Pagination, Autoplay, Navigation]}
+            className='!pb-10'>
+            {serviceData?.data?.slice(0, 6)?.map((service) => (
+              <SwiperSlide key={service._id}>
+                <FeatureCard service={service} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        )}
+      </div>
     </div>
   )
 }
