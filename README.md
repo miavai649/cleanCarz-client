@@ -1,50 +1,78 @@
-# React + TypeScript + Vite
+# Clean Carz 🚗🧼
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Introduction
 
-Currently, two official plugins are available:
+The **Clean Carz** is a web application where user can get different types of car wash services. It allows users to explore available services, select a time slot, and book a service online, offering a digital car care experience.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Project Description
 
-## Expanding the ESLint configuration
+This project provides a nice experience for customers to book car wash services based on their preferences. User can browse different type of services and select time for booking a slot. Our main target is to create a user friendly experience for our customers.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Features
 
-- Configure the top-level `parserOptions` property like this:
+- User-friendly interface for booking car wash services.
+- Real-time availability of service time slots.
+- Service details including duration, price, descriptions and duration.
+- Responsive design for mobile and desktop device.
+- Integrated AamarPay payment gateway for secure payments.
+- Proper authentication and authorization.
+- Admin dashboard for managing services, bookings, slots and users.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## Technology Stack
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+- **Frontend**: React, Tailwind CSS, Swiper.js, Sonner, Redux Persist, React Router Dom, React Icons, React Hook Form, Moment, Dayjs
+- **Backend**: Node.js, Express.js, TypeScript, Axios, Bcryptjs, Cookie Parser, Cors, Dotenv, HTTP status
+- **Database**: Zod
+- **Database**: MongoDB, Mongoose
+- **State Management**: Redux Toolkit
+- **Authentication**: JWT
+- **API Communication**: RTK Query
+- **UI Library**: Ant Design and Tailwind CSS
+- **Payment Gateway**: AamarPay
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## Installation Guidelines
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+### Prerequisites
+
+Ensure you have the following installed on your machine:
+
+- [Node.js](https://nodejs.org/) (v14.x or higher)
+- [Yarn](https://yarnpkg.com/) (optional, if using Yarn as the package manager)
+- [MongoDB](https://www.mongodb.com/) (for local development)
+
+### Installation Steps
+
+### Installation Steps
+
+1. **Clone the repository**:
+
+   ```bash
+   git clone https://github.com/miavai649/cleanCarz-client
+   ```
+
+2. **Install dependencies**:
+   Using npm:
+
+   ```bash
+   npm install
+   ```
+
+   Using yarn:
+
+   ```bash
+   yarn install
+   ```
+
+3. **Run the project**:
+   Using npm:
+   ```bash
+   npm run dev
+   ```
+   Using yarn:
+   ```bash
+   yarn start dev
+   ```
+
+## Live URL
+
+[Click here](https://cleancarz.vercel.app/)
