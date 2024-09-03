@@ -43,7 +43,6 @@ const MyBooking = () => {
   const upcomingBookings = myBookingData?.data?.filter((booking) =>
     moment(booking.slot.date).isSameOrAfter(today)
   )
-  console.log('🚀 ~ MyBooking ~ upcomingBookings:', upcomingBookings)
 
   // Function to get the deadline for countdown
   const getCountdownValue = (date: string, startTime: string) => {

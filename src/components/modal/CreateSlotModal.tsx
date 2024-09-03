@@ -38,7 +38,6 @@ const CreateSlotModal = () => {
   }
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data)
     const slotData = {
       ...data,
       date: moment(new Date(data.date)).format('YYYY-MM-DD'),

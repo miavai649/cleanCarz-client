@@ -33,7 +33,6 @@ const Review = () => {
   const { data: reviewData, isLoading: reviewLoading } = useGetAllReviewsQuery(
     {}
   )
-  console.log('🚀 ~ Review ~ reviewData:', reviewData)
 
   const [addReview] = useAddReviewMutation()
 

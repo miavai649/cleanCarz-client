@@ -8,7 +8,6 @@ import Spinner from '../../components/spinner/Spinner'
 
 const FeaturedServices = () => {
   const { data: serviceData, isLoading } = useGetAllServiceQuery({})
-  console.log('🚀 ~ FeaturedServices ~ serviceData:', serviceData)
 
   return (
     <div className='container mx-auto py-8 md:py-12 px-4 md:px-8'>

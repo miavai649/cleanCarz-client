@@ -46,7 +46,6 @@ const BookingPage = () => {
 
     try {
       const res = (await createBooking(bookingData)) as TResponse<any>
-      console.log('🚀 ~ constonSubmit:SubmitHandler<FieldValues>= ~ res:', res)
 
       if (res.error) {
         toast.error('Failed to create Booking', {
