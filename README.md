@@ -76,3 +76,8 @@ Ensure you have the following installed on your machine:
 ## Live URL
 
 [Click here](https://cleancarz.vercel.app/)
+
+## Admin credentials
+
+1. adminEmail: noor@gmail.com
+2. password: admin123
