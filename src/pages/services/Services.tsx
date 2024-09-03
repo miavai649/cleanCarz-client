@@ -106,7 +106,7 @@ const Services = () => {
           handleClearFilter={handleClearFilter}
         />
 
-        {/* Mobile Menu Button and search box */}
+        {/* mobile menu Button and search box */}
         <div className='lg:hidden flex justify-between items-center w-full p-2'>
           <button
             type='button'

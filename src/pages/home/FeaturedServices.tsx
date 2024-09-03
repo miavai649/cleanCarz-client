@@ -1,67 +1,57 @@
-import { image } from '../../assets/images'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Autoplay, Pagination, Navigation } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/pagination'
 import FeatureCard from '../../components/cards/FeatureCard'
-
-const services = [
-  {
-    id: 1,
-    title: 'Full Exterior Wash',
-    description: 'A thorough exterior wash to make your car shine.',
-    image: image // Replace with actual image
-  },
-  {
-    id: 2,
-    title: 'Interior Detailing',
-    description: 'Detailed interior cleaning for a spotless cabin.',
-    image: image // Replace with actual image
-  },
-  {
-    id: 3,
-    title: 'Wax and Polish',
-    description: 'Enhance your car’s shine and protect the paint with wax.',
-    image: image // Replace with actual image
-  },
-  {
-    id: 4,
-    title: 'Tire and Wheel Cleaning',
-    description: 'Deep clean your tires and wheels for a fresh look.',
-    image: image // Replace with actual image
-  },
-  {
-    id: 5,
-    title: 'Engine Cleaning',
-    description: 'Professional engine cleaning to keep it running smoothly.',
-    image: image // Replace with actual image
-  },
-  {
-    id: 6,
-    title: 'Full Package',
-    description: 'A complete package for interior and exterior cleaning.',
-    image: image // Replace with actual image
-  }
-]
+import { useGetAllServiceQuery } from '../../redux/features/service/serviceApi'
 
 const FeaturedServices = () => {
+  const { data: serviceData, isLoading } = useGetAllServiceQuery({})
+  console.log('🚀 ~ FeaturedServices ~ serviceData:', serviceData)
+
   return (
-    <div className='container mx-auto py-12'>
+    <div className='container mx-auto py-8 md:py-12 px-4 md:px-8'>
       {/* Header */}
-      <div className='text-center mb-12'>
-        <h2 className='text-4xl font-extrabold text-gray-800 mb-4'>
+      <div className='text-center mb-8 md:mb-12'>
+        <h2 className='text-2xl md:text-4xl font-extrabold text-gray-800 mb-4'>
           Featured Services
         </h2>
-        <p className='text-gray-600 text-lg'>
+        <p className='text-gray-600 text-base md:text-lg'>
           Explore our most popular car wash packages
         </p>
-        <div className='mt-2 w-24 mx-auto h-1 bg-primary-800 rounded'></div>
+        <div className='mt-2 w-16 md:w-24 mx-auto h-1 bg-primary-800 rounded'></div>
       </div>
 
-      {/* Services Grid */}
-      <div className='flex justify-center'>
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8'>
-          {services.map((service) => (
-            <FeatureCard service={service} key={service.id} />
-          ))}
-        </div>
-      </div>
+      {/* Services Slider */}
+      <Swiper
+        slidesPerView={1}
+        spaceBetween={10}
+        loop={true}
+        pagination={{ clickable: true }}
+        navigation={true}
+        breakpoints={{
+          640: {
+            slidesPerView: 1,
+            spaceBetween: 20
+          },
+          768: {
+            slidesPerView: 2,
+            spaceBetween: 30
+          },
+          1024: {
+            slidesPerView: 3,
+            spaceBetween: 40
+          }
+        }}
+        autoplay={true}
+        modules={[Pagination, Autoplay, Navigation]}
+        className='!pb-10'>
+        {serviceData?.data?.slice(0, 6)?.map((service) => (
+          <SwiperSlide key={service._id}>
+            <FeatureCard service={service} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </div>
   )
 }
