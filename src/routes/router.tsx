@@ -16,6 +16,7 @@ import Booking from '../pages/admin/Booking'
 import MyProfile from '../pages/user/MyProfile'
 import MyBooking from '../pages/user/MyBooking'
 import AllReviews from '../pages/home/AllReviews'
+import ServiceComparison from '../pages/ServiceComparision/ServiceComparison'
 
 const router = createBrowserRouter([
   {
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
       {
         path: '/register',
         element: <Register />
+      },
+      {
+        path: '/service-comparison',
+        element: <ServiceComparison />
       }
     ]
   },

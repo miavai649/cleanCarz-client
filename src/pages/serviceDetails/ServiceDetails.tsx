@@ -15,15 +15,22 @@ const ServiceDetails = () => {
 
   const { serviceId } = useParams()
 
-  const { data: serviceData, isLoading: serviceLoading } =
-    useGetServiceQuery(serviceId)
+  const {
+    data: serviceData,
+    isLoading: serviceLoading,
+    isError: serviceError
+  } = useGetServiceQuery(serviceId)
 
   const query = {
     date: formattedDate,
     serviceId: serviceData?.data?._id
   }
 
-  const { data: slotData, isLoading: slotLoading } = useGetAllSlotQuery(query)
+  const {
+    data: slotData,
+    isLoading: slotLoading,
+    isError: slotError
+  } = useGetAllSlotQuery(query)
 
   const handleDateChange = (date: Dayjs) => {
     setSelectedDate(date)
@@ -31,7 +38,6 @@ const ServiceDetails = () => {
 
   return (
     <div className='container mx-auto py-12'>
-      {/* service header */}
       <div className='text-center mb-12'>
         <h2 className='text-4xl font-extrabold text-gray-800 mb-4'>
           Service Details
@@ -45,9 +51,15 @@ const ServiceDetails = () => {
 
       {serviceLoading ? (
         <Spinner styling='h-screen' />
+      ) : serviceError ? (
+        <div className='text-center text-red-500'>
+          <MdErrorOutline size={48} />
+          <p className='text-lg font-semibold'>
+            Failed to load service details.
+          </p>
+        </div>
       ) : (
         <div className='max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg'>
-          {/* service image */}
           <div className='relative mb-6 rounded-lg overflow-hidden'>
             <img
               src={serviceData?.data?.image}
@@ -56,7 +68,6 @@ const ServiceDetails = () => {
             <div className='absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-50'></div>
           </div>
 
-          {/* service details */}
           <h1 className='text-3xl font-bold text-primary-600'>
             {serviceData?.data?.name}
           </h1>
@@ -68,7 +79,6 @@ const ServiceDetails = () => {
           </p>
           <p className='mt-4 text-gray-600'>{serviceData?.data?.description}</p>
 
-          {/* calendar section */}
           <div className='mt-10'>
             <h2 className='text-2xl font-semibold text-gray-800 text-center mb-6'>
               Select a Date
@@ -108,7 +118,6 @@ const ServiceDetails = () => {
             </div>
           </div>
 
-          {/* time slots */}
           <div className='mt-6'>
             <h2 className='text-xl font-semibold text-gray-800'>
               Available Time Slots:
@@ -118,6 +127,11 @@ const ServiceDetails = () => {
             </p>
             {slotLoading ? (
               <Spinner styling='h-screen' />
+            ) : slotError ? (
+              <div className='text-center text-red-500'>
+                <MdErrorOutline size={48} />
+                <p className='text-lg font-semibold'>Failed to load slots.</p>
+              </div>
             ) : slotData?.data?.length === 0 ? (
               <div className='mt-8 flex flex-col items-center justify-center'>
                 <MdErrorOutline className='text-red-500 mb-4' size={48} />
@@ -151,13 +165,13 @@ const ServiceDetails = () => {
             )}
           </div>
 
-          {/* book button */}
           {selectedSlot && (
-            <div className='mt-8 flex justify-center'>
-              <Link to={`/booking-page/${serviceId}/${selectedSlot}`}>
+            <div className='mt-10 text-center'>
+              <Link to={`/booking/${selectedSlot}`}>
                 <Button
+                  size='large'
                   type='primary'
-                  className='bg-primary-500 hover:bg-primary-600 text-white px-6 py-2 rounded-lg shadow-md'>
+                  className='bg-primary-600 hover:bg-primary-700 focus:bg-primary-800'>
                   Book This Service
                 </Button>
               </Link>

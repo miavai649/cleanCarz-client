@@ -10,6 +10,7 @@ import {
   Typography
 } from 'antd'
 import Spinner from '../../components/spinner/Spinner'
+import { MdErrorOutline } from 'react-icons/md'
 
 export type TTableData = {
   key: string
@@ -42,6 +43,7 @@ const MyBooking = () => {
   const upcomingBookings = myBookingData?.data?.filter((booking) =>
     moment(booking.slot.date).isSameOrAfter(today)
   )
+  console.log('🚀 ~ MyBooking ~ upcomingBookings:', upcomingBookings)
 
   // Function to get the deadline for countdown
   const getCountdownValue = (date: string, startTime: string) => {
@@ -129,59 +131,73 @@ const MyBooking = () => {
       <div className='flex justify-between w-full'>
         <h1 className='text-2xl mb-6 font-bold'>Upcoming Bookings</h1>
       </div>
-      <Row gutter={[24, 24]}>
-        {upcomingBookings?.map((booking) => (
-          <Col span={8} key={booking._id}>
-            <Card
-              title={<Title level={4}>{booking.service.name}</Title>}
-              bordered={false}
-              style={{
-                borderRadius: '12px',
-                boxShadow: '0 6px 20px rgba(0, 0, 0, 0.1)',
-                padding: '24px',
-                backgroundColor: '#ffffff'
-              }}>
-              <Text strong>Price: </Text>৳{booking.service.price}
-              <br />
-              <Text strong>Date: </Text>
-              {booking.slot.date}
-              <br />
-              <Text strong>Start Time: </Text>
-              {booking.slot.startTime}
-              <br />
-              <Text strong>End Time: </Text>
-              {booking.slot.endTime}
-              <br />
-              <Text strong>Vehicle Model: </Text>
-              {booking.vehicleModel}
-              <br />
-              <Text strong>Vehicle Brand: </Text>
-              {booking.vehicleBrand}
-              <br />
-              <Text strong>Registration Plate: </Text>
-              {booking.registrationPlate}
-              <br />
-              <Text strong>Manufacturing Year: </Text>
-              {booking.manufacturingYear}
-              <br />
-              <div style={{ marginTop: '24px' }}>
-                <Countdown
-                  title={<Text strong>Time Until Your Car Wash</Text>}
-                  value={getCountdownValue(
-                    booking.slot.date,
-                    booking.slot.startTime
-                  )}
-                  format='HH:mm:ss'
-                  onFinish={() =>
-                    console.log(`Booking ${booking._id} has started`)
-                  }
-                  className='text-lg font-semibold'
-                />
-              </div>
-            </Card>
-          </Col>
-        ))}
-      </Row>
+      <div>
+        {upcomingBookings?.length === 0 ? (
+          <div className='flex flex-col items-center justify-center py-16'>
+            <MdErrorOutline className='text-red-500 mb-4' size={48} />
+            <p className='text-lg font-semibold text-gray-800'>
+              No Upcoming Bookings
+            </p>
+            <p className='text-sm text-gray-600 mt-1'>
+              Please book a slot for your car wash service.
+            </p>
+          </div>
+        ) : (
+          <Row gutter={[24, 24]}>
+            {upcomingBookings?.map((booking) => (
+              <Col span={8} key={booking._id}>
+                <Card
+                  title={<Title level={4}>{booking.service.name}</Title>}
+                  bordered={false}
+                  style={{
+                    borderRadius: '12px',
+                    boxShadow: '0 6px 20px rgba(0, 0, 0, 0.1)',
+                    padding: '24px',
+                    backgroundColor: '#ffffff'
+                  }}>
+                  <Text strong>Price: </Text>৳{booking.service.price}
+                  <br />
+                  <Text strong>Date: </Text>
+                  {booking.slot.date}
+                  <br />
+                  <Text strong>Start Time: </Text>
+                  {booking.slot.startTime}
+                  <br />
+                  <Text strong>End Time: </Text>
+                  {booking.slot.endTime}
+                  <br />
+                  <Text strong>Vehicle Model: </Text>
+                  {booking.vehicleModel}
+                  <br />
+                  <Text strong>Vehicle Brand: </Text>
+                  {booking.vehicleBrand}
+                  <br />
+                  <Text strong>Registration Plate: </Text>
+                  {booking.registrationPlate}
+                  <br />
+                  <Text strong>Manufacturing Year: </Text>
+                  {booking.manufacturingYear}
+                  <br />
+                  <div style={{ marginTop: '24px' }}>
+                    <Countdown
+                      title={<Text strong>Time Until Your Car Wash</Text>}
+                      value={getCountdownValue(
+                        booking.slot.date,
+                        booking.slot.startTime
+                      )}
+                      format='HH:mm:ss'
+                      onFinish={() =>
+                        console.log(`Booking ${booking._id} has started`)
+                      }
+                      className='text-lg font-semibold'
+                    />
+                  </div>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        )}
+      </div>
       <div className='flex justify-between w-full pt-12'>
         <h1 className='text-2xl mb-6 font-bold'>Booking History</h1>
       </div>

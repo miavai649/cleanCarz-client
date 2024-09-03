@@ -81,7 +81,7 @@ const Services = () => {
 
   return (
     <div className='container mx-auto py-12'>
-      {/* Header */}
+      {/* header */}
       <div className='text-center mb-12'>
         <h2 className='text-4xl font-extrabold text-gray-800 mb-4'>
           Our Premium Car Wash Services

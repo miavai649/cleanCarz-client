@@ -66,7 +66,9 @@ const Navbar = () => {
   ]
 
   const { data: myBookingData, isLoading: myBookingLoading } =
-    useGetMyBookingQuery(undefined, { skip: !token })
+    useGetMyBookingQuery(undefined, {
+      skip: userData?.data?.role === 'admin' || !token
+    })
 
   const findNextBooking = () => {
     const today = moment()

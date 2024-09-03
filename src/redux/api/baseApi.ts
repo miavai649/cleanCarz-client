@@ -13,7 +13,7 @@ import { logout, setUser } from '../features/auth/authSlice'
 
 // main base query
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'http://localhost:5000/api', // todo: must change this
+  baseUrl: 'https://lvl-2-assignment-3-nine.vercel.app/api', // todo: must change this
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
     // preparing headers for request

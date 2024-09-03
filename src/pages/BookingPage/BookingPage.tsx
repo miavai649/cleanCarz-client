@@ -19,7 +19,8 @@ const BookingPage = () => {
 
   const user = useAppSelector(useCurrentUser)
   // create booking rtk query
-  const [createBooking] = useCreateBookingMutation()
+  const [createBooking, { isLoading: bookingLoading }] =
+    useCreateBookingMutation()
 
   const defaultValue = {
     userName: '',
@@ -45,15 +46,14 @@ const BookingPage = () => {
 
     try {
       const res = (await createBooking(bookingData)) as TResponse<any>
+      console.log('🚀 ~ constonSubmit:SubmitHandler<FieldValues>= ~ res:', res)
 
       if (res.error) {
         toast.error('Failed to create Booking', {
           duration: 2000
         })
       } else {
-        toast.success('Booking created successfully', {
-          duration: 2000
-        })
+        window.location.href = res?.data?.data?.payment_url
       }
     } catch (error) {
       toast.error('Something went wrong')
@@ -199,6 +199,7 @@ const BookingPage = () => {
                 </Row>
 
                 <Button
+                  loading={bookingLoading}
                   htmlType='submit'
                   style={{
                     width: '100%',
