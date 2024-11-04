@@ -15,6 +15,13 @@ import { TResponse } from '../../types'
 import Spinner from '../../components/spinner/Spinner'
 import moment from 'moment'
 import { Avatar } from 'antd'
+import SectionHeader from '../../components/ui/SectionHeader'
+
+const headingProps = {
+  heading: 'Share Your Experience',
+  description:
+    'Your feedback matters! Help us keep our standards high by sharing your thoughts on our services. We value every review and strive to make your next experience even better.'
+}
 
 const Review = () => {
   const [hover, setHover] = useState(0)
@@ -95,17 +102,7 @@ const Review = () => {
       )}
 
       <div className='bg-white p-8 rounded-lg shadow-lg animate-slide-up'>
-        <div className='text-center mb-12'>
-          <h2 className='text-4xl font-extrabold text-gray-800 mb-4 animate-slide-in'>
-            Share Your Experience
-          </h2>
-          <p className='text-gray-600 text-lg animate-slide-in'>
-            Your feedback matters! Help us keep our standards high by sharing
-            your thoughts on our services. We value every review and strive to
-            make your next experience even better.
-          </p>
-          <div className='mt-2 w-24 mx-auto h-1 bg-primary-800 rounded animate-expand'></div>
-        </div>
+        <SectionHeader props={headingProps} />
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className='flex items-center mb-4 animate-fade-in'>
