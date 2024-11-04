@@ -166,27 +166,27 @@ const Review = () => {
             <div>
               {reviewData?.data?.slice(0, 2).map((review: any) => (
                 <div
-                  key={review._id}
+                  key={review?._id}
                   className='bg-white p-6 rounded-lg mb-6 shadow-lg animate-slide-up space-y-4'>
                   <div className='flex items-center space-x-4'>
                     <div className='flex-shrink-0'>
                       <Avatar
                         size={50}
                         className='cursor-pointer'
-                        src={review.user?.image}
-                        alt={review.user?.name}
+                        src={review?.user?.image}
+                        alt={review?.user?.name}
                         style={{
                           backgroundColor: '#418FC8',
                           verticalAlign: 'middle'
                         }}>
-                        {!review.user?.image && (
+                        {!review?.user?.image && (
                           <span
                             style={{
                               fontSize: '1rem',
                               fontWeight: 'bold',
                               color: 'white'
                             }}>
-                            {review.user?.name?.charAt(0)}
+                            {review?.user?.name?.charAt(0)}
                           </span>
                         )}
                       </Avatar>
@@ -194,11 +194,11 @@ const Review = () => {
 
                     <div className='flex flex-col'>
                       <h4 className='text-lg font-semibold text-gray-900'>
-                        {review.user.name}
+                        {review?.user?.name}
                       </h4>
                       <p className='text-sm text-gray-500'>
                         Submitted on{' '}
-                        {moment(review.createdAt).format(
+                        {moment(review?.createdAt).format(
                           'MMMM Do, YYYY [at] h:mm A'
                         )}
                       </p>
@@ -206,7 +206,7 @@ const Review = () => {
                   </div>
 
                   <div className='flex items-center'>
-                    {[...Array(review.rating)].map((_, index) => (
+                    {[...Array(review?.rating)].map((_, index) => (
                       <FaStar
                         key={index}
                         size={20}
@@ -216,7 +216,7 @@ const Review = () => {
                   </div>
 
                   <p className='text-gray-700 leading-relaxed'>
-                    {review.review}
+                    {review?.review}
                   </p>
                 </div>
               ))}
