@@ -4,7 +4,7 @@ import SectionHeader from '../../components/ui/SectionHeader'
 const headingProps = {
   heading: 'Behind the Scenes: The CleanCarz Experience',
   description:
-    'Discover how our car wash services have evolved to set new standards in quality, efficiency, and customer satisfaction over the years.'
+    'Step inside CleanCarz to see the precision, innovation, and dedication that drive our premium car wash services.'
 }
 
 const BehindTheScenes = () => {
@@ -25,7 +25,7 @@ const BehindTheScenes = () => {
       {/* Content */}
       <div className='grid grid-cols-1 md:grid-cols-2 gap-10 items-center'>
         {/* Video Container */}
-        <div className='relative rounded-lg overflow-hidden shadow-lg transform hover:scale-105 transition duration-500'>
+        <div className='relative rounded-lg overflow-hidden shadow-lg transform transition duration-500'>
           <iframe
             src='https://www.youtube.com/embed/eMBlkjCA298?autoplay=1&mute=1&loop=1&playlist=eMBlkjCA298'
             frameBorder='0'
