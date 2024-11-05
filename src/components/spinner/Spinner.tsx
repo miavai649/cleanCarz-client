@@ -1,16 +1,9 @@
-interface SpinnerProps {
-  styling?: string
-}
+import { ClockLoader } from 'react-spinners'
 
-const Spinner = ({ styling }: SpinnerProps) => {
+const Spinner = () => {
   return (
-    <div className={`relative ${styling}`}>
-      <div className='absolute inset-0 flex items-center justify-center'>
-        <div className='relative'>
-          <div className='w-12 h-12 rounded-full absolute border-8 border-dashed border-gray-200'></div>
-          <div className='w-12 h-12 rounded-full animate-spin absolute border-8 border-dashed border-primary-600 border-t-transparent'></div>
-        </div>
-      </div>
+    <div className=' h-screen bg-black/10 fixed inset-0 backdrop-blur-md z-[999] flex justify-center items-center'>
+      <ClockLoader color='#E65100' size={150} />
     </div>
   )
 }

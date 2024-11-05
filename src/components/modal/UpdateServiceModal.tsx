@@ -89,6 +89,7 @@ const UpdateServiceModal = ({ serviceId }: TUpdateServiceModalProps) => {
         toast.success('Service updated successfully', { duration: 2000 })
       }
     } catch (error) {
+      console.log(error)
       toast.error('Something went wrong')
     } finally {
       setLoading(false)

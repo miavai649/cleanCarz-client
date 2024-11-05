@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useParams } from 'react-router-dom'
 import { useGetServiceQuery } from '../../redux/features/service/serviceApi'
 import { useGetSingleSlotQuery } from '../../redux/features/slot/slotApi'
@@ -55,6 +56,7 @@ const BookingPage = () => {
         window.location.href = res?.data?.data?.payment_url
       }
     } catch (error) {
+      console.log(error)
       toast.error('Something went wrong')
     }
   }
@@ -116,15 +118,19 @@ const BookingPage = () => {
         <div className='mt-2 w-24 mx-auto h-1 bg-primary-800 rounded'></div>
       </div>
       {serviceLoading || slotLoading ? (
-        <Spinner styling='h-screen' />
+        <Spinner />
       ) : (
         <div className=' p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12'>
           <div className='flex flex-col md:flex-row md:space-x-6'>
             {/*  selected service and time slot */}
-            <SelectedServiceAndSlot
-              serviceData={serviceData?.data!}
-              slotData={slotData?.data!}
-            />
+            {serviceData?.data && slotData?.data ? (
+              <SelectedServiceAndSlot
+                serviceData={serviceData.data}
+                slotData={slotData.data}
+              />
+            ) : (
+              <Spinner />
+            )}
             {/* horizontal divider for small screens */}
             <div className='md:hidden my-6 border-t border-gray-300'></div>
             {/* vertical divider for larger screens */}

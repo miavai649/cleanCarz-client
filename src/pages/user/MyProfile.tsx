@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react'
 import { FieldValues, SubmitHandler } from 'react-hook-form'
 import { Avatar, Button, Modal, Upload, UploadProps } from 'antd'
@@ -193,7 +195,7 @@ const MyProfile = () => {
         </div>
 
         {isLoading ? (
-          <Spinner styling='h-screen' />
+          <Spinner />
         ) : (
           <>
             <CForm

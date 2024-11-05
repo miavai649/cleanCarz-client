@@ -82,6 +82,7 @@ const AddServiceModal = () => {
         }
       } catch (error) {
         toast.error('Something went wrong')
+        console.log(error)
       }
     }
 
@@ -123,7 +124,7 @@ const AddServiceModal = () => {
           <CInput name='duration' type='number' label='Duration' />
           <Controller
             name='image'
-            render={({ field: { onChange, value, ...field } }) => (
+            render={({ field: { onChange, ...field } }) => (
               <Form.Item label={'Image'}>
                 <Input
                   type='file'

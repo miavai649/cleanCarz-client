@@ -1,6 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { GoArrowDownRight, GoArrowUpRight } from 'react-icons/go'
-import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
 const AccordionItem: React.FC<{
   question: string
   answer: string

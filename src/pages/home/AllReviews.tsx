@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useGetAllReviewsQuery } from '../../redux/features/review/reviewApi'
 import { Avatar } from 'antd'
 import moment from 'moment'
@@ -30,7 +31,7 @@ const AllReviews = () => {
       </div>
 
       {reviewLoading ? (
-        <Spinner styling='h-screen' />
+        <Spinner />
       ) : (
         <div>
           <div className='mb-12'>

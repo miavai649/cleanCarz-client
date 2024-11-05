@@ -1,10 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { FaStar } from 'react-icons/fa'
-import { IoMdCheckmarkCircleOutline } from 'react-icons/io'
 import { MdErrorOutline } from 'react-icons/md'
-import { useAppSelector } from '../../redux/hook'
-import { useCurrentToken } from '../../redux/features/auth/authSlice'
 import { Link } from 'react-router-dom'
 import {
   useAddReviewMutation,
@@ -74,33 +73,8 @@ const Review = () => {
     reset()
   }
 
-  const token = useAppSelector(useCurrentToken)
-
   return (
     <div className='relative container mx-auto py-12'>
-      {/* Black Overlay */}
-      {!token && (
-        <div className='absolute inset-0 z-10 bg-black rounded-md bg-opacity-70 flex items-center justify-center'>
-          <div className='bg-white p-8 rounded-lg shadow-lg text-center animate-fade-in'>
-            <IoMdCheckmarkCircleOutline
-              size={48}
-              className='text-green-500 mb-4 mx-auto animate-bounce'
-            />
-            <h3 className='text-2xl font-semibold mb-4 animate-slide-in'>
-              Please Log In
-            </h3>
-            <p className='mb-4 text-gray-700 animate-slide-in'>
-              You need to be logged in to leave a review.
-            </p>
-            <Link to={'/login'}>
-              <button className='bg-primary-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-700 transition-all animate-button-hover transform hover:scale-105'>
-                Log In
-              </button>
-            </Link>
-          </div>
-        </div>
-      )}
-
       <div className='bg-white p-8 rounded-lg shadow-lg animate-slide-up'>
         <SectionHeader props={headingProps} />
 
@@ -158,7 +132,7 @@ const Review = () => {
           </h3>
 
           {reviewLoading ? (
-            <Spinner styling='h-screen' />
+            <Spinner />
           ) : (
             <div>
               {reviewData?.data?.slice(0, 2).map((review: any) => (

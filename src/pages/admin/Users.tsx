@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button, Space, Table, TableColumnsType, Tag } from 'antd'
 import {
   useGetAllUsersQuery,

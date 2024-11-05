@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button, Modal, Space, Table, TableColumnsType } from 'antd'
 import { Link } from 'react-router-dom'
 import AddServiceModal from '../../components/modal/AddServiceModal'

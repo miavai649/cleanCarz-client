@@ -22,7 +22,7 @@ const FeaturedServices = () => {
       {/* feature services */}
       <div>
         {isLoading ? (
-          <Spinner styling='h-screen' />
+          <Spinner />
         ) : (
           <Swiper
             slidesPerView={1}

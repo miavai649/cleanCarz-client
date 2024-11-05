@@ -1,4 +1,12 @@
-const FeatureCard = ({ service }: any) => {
+interface featureCardProps {
+  service: {
+    image: string
+    name: string
+    description: string
+  }
+}
+
+const FeatureCard = ({ service }: featureCardProps) => {
   return (
     <div className='max-w-full md:max-w-sm bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 hover:shadow-xl'>
       <img

@@ -44,7 +44,7 @@ const ServiceDetails = () => {
       </div>
 
       {serviceLoading ? (
-        <Spinner styling='h-screen' />
+        <Spinner />
       ) : (
         <div className='max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg'>
           {/* service image */}
@@ -117,7 +117,7 @@ const ServiceDetails = () => {
               (Time is displayed in 24-hour format)
             </p>
             {slotLoading ? (
-              <Spinner styling='h-screen' />
+              <Spinner />
             ) : slotData?.data?.length === 0 ? (
               <div className='mt-8 flex flex-col items-center justify-center'>
                 <MdErrorOutline className='text-red-500 mb-4' size={48} />

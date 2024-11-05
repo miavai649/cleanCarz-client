@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { FieldValues, SubmitHandler } from 'react-hook-form'
 import CForm from '../../components/form/CForm'
 import CInput from '../../components/form/CInput'

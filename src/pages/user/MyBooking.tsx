@@ -122,7 +122,7 @@ const MyBooking = () => {
   ]
 
   if (myBookingLoading) {
-    return <Spinner styling='h-screen' />
+    return <Spinner />
   }
 
   return (

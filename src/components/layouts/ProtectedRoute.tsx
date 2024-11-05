@@ -16,6 +16,7 @@ type TProtectedRouteProps = {
 const ProtectedRoute = ({ children, role }: TProtectedRouteProps) => {
   const token = useAppSelector(useCurrentToken)
   const location = useLocation()
+  const dispatch = useAppDispatch()
 
   const adminPaths = [
     '/admin',
@@ -38,7 +39,6 @@ const ProtectedRoute = ({ children, role }: TProtectedRouteProps) => {
   }
 
   const user = verifyToken(token) as TUserDecoded
-  const dispatch = useAppDispatch()
 
   if (role !== undefined && role !== user?.userRole) {
     dispatch(logout())
