@@ -17,6 +17,7 @@ import { aboutUs } from '../../assets/images'
 import EvolutionSection from './EvolutionSection'
 import InnovationHub from './InnovationHub'
 import WhyChooseCleanCarz from './WhyChooseCleanCarz'
+import BehindTheScenes from './BehindTheScenes'
 
 const AboutUs: React.FC = () => {
   const controls = useAnimation()
@@ -107,39 +108,7 @@ const AboutUs: React.FC = () => {
         <WhyChooseCleanCarz />
 
         {/* Behind the Scenes */}
-        <motion.section className='mb-20' variants={fadeInUp}>
-          <h2 className='text-4xl font-bold mb-6 text-primary-700'>
-            Behind the Scenes: The CleanCarz Experience
-          </h2>
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
-            <div className='relative aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-2xl'>
-              <iframe
-                src='https://www.youtube.com/embed/dQw4w9WgXcQ'
-                frameBorder='0'
-                allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-                allowFullScreen
-                className='absolute inset-0 w-full h-full'></iframe>
-            </div>
-            <div className='flex flex-col justify-center'>
-              <h3 className='text-2xl font-semibold mb-4 text-primary-600'>
-                Witness the Magic Unfold
-              </h3>
-              <p className='text-gray-600 mb-4'>
-                Take a journey through our state-of-the-art facility and witness
-                firsthand the meticulous process that transforms your vehicle.
-                From our cutting-edge equipment to our dedicated team of
-                professionals, every step is designed to deliver unparalleled
-                results.
-              </p>
-              <motion.button
-                className='bg-secondary-500 text-white px-6 py-2 rounded-full font-semibold text-lg shadow-lg self-start'
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}>
-                Book Your Experience
-              </motion.button>
-            </div>
-          </div>
-        </motion.section>
+        <BehindTheScenes />
 
         {/* Our Eco Commitment */}
         <motion.section className='mb-20' variants={fadeInUp}>
