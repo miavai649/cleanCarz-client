@@ -1,4 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
+import { GoArrowDownRight, GoArrowUpRight } from 'react-icons/go'
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
 const AccordionItem: React.FC<{
   question: string
@@ -27,8 +28,8 @@ const AccordionItem: React.FC<{
         <motion.div
           initial={false}
           transition={{ duration: 0.3 }}
-          className='text-primary-500 text-xl'>
-          {isOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}
+          className='text-primary-500 text-3xl'>
+          {isOpen ? <GoArrowUpRight /> : <GoArrowDownRight />}
         </motion.div>
       </motion.button>
       <AnimatePresence initial={false}>
