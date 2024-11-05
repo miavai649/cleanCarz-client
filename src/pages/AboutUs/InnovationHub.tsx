@@ -5,7 +5,7 @@ import SectionHeader from '../../components/ui/SectionHeader'
 const headingProps = {
   heading: 'CleanCarz Innovation Hub',
   description:
-    'Discover how our car wash services have evolved to set new standards in quality, efficiency, and customer satisfaction over the years.'
+    'Pioneering eco-friendly and advanced car wash solutions for a cleaner future.'
 }
 
 const InnovationHub = () => {
