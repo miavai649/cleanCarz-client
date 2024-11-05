@@ -18,6 +18,7 @@ import MyBooking from '../pages/user/MyBooking'
 import AllReviews from '../pages/home/AllReviews'
 import ServiceComparison from '../pages/ServiceComparision/ServiceComparison'
 import AboutUs from '../pages/AboutUs/AboutUs'
+import Contact from '../pages/Contact/Contact'
 
 const router = createBrowserRouter([
   {
@@ -64,6 +65,10 @@ const router = createBrowserRouter([
       {
         path: '/about-us',
         element: <AboutUs />
+      },
+      {
+        path: '/contact',
+        element: <Contact />
       }
     ]
   },
