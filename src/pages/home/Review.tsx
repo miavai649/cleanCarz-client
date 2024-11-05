@@ -13,8 +13,11 @@ import { toast } from 'sonner'
 import { TResponse } from '../../types'
 import Spinner from '../../components/spinner/Spinner'
 import moment from 'moment'
-import { Avatar } from 'antd'
+import { Avatar, Button } from 'antd'
 import SectionHeader from '../../components/ui/SectionHeader'
+import { useAppSelector } from '../../redux/hook'
+import { useCurrentToken } from '../../redux/features/auth/authSlice'
+import AuthenticationModal from '../../components/modal/AuthenticationModal'
 
 const headingProps = {
   heading: 'Share Your Experience',
@@ -23,6 +26,7 @@ const headingProps = {
 }
 
 const Review = () => {
+  const token = useAppSelector(useCurrentToken)
   const [hover, setHover] = useState(0)
 
   const {
@@ -112,11 +116,33 @@ const Review = () => {
             </p>
           )}
 
-          <button
-            type='submit'
-            className='bg-primary-500 text-white px-6 py-3 rounded-md font-semibold hover:bg-primary-700 transition-all animate-button-hover transform hover:scale-105'>
-            Submit Review
-          </button>
+          {!token ? (
+            <AuthenticationModal />
+          ) : (
+            <Button
+              htmlType='submit'
+              style={{
+                backgroundColor: '#56A7DC',
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: '8px',
+                padding: '0.6rem 1.2rem',
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                transition: 'background-color 0.3s ease, transform 0.2s ease'
+              }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.backgroundColor = '#4691C7')
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.backgroundColor = '#56A7DC')
+              }
+              onMouseDown={(e) =>
+                (e.currentTarget.style.transform = 'scale(0.98)')
+              }
+              onMouseUp={(e) => (e.currentTarget.style.transform = 'scale(1)')}>
+              Submit Review
+            </Button>
+          )}
         </form>
 
         <div className='mt-8'>
